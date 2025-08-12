@@ -1,13 +1,11 @@
-import { defineConfig } from 'tailwindcss'
+// import { defineConfig } from 'tailwindcss';
 
-export default defineConfig({
-  content: [
-    "./src/**/*.{astro,html,js,jsx,ts,tsx,vue,svelte}",
-  ],
+export default {
+  content: ['./src/**/*.{astro,html,js,jsx,ts,tsx,vue,svelte}'],
   theme: {
     extend: {
       fontFamily: {
-        inter: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        inter: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       colors: {
         brand: {
@@ -38,9 +36,10 @@ export default defineConfig({
         },
       },
       backgroundImage: {
-        'brand-gradient': 'linear-gradient(to bottom right, #1b1342, #4e29b4, #7d4dff)',
+        'brand-gradient':
+          'linear-gradient(to bottom right, #1b1342, #4e29b4, #7d4dff)',
       },
     },
   },
   plugins: [],
-});
+};

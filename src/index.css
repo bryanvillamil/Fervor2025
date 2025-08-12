@@ -1,8 +1,10 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: 222.2 84% 4.9%;
-  --foreground: #FBEDD7;
+  --foreground: #fbedd7;
   --card: 222.2 84% 4.9%;
   --card-foreground: 210 40% 98%;
   --popover: 222.2 84% 4.9%;
@@ -29,10 +31,10 @@
 body {
   font-family: 'Inter', sans-serif;
   /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
-  background: #FBEDD7;
+  background: #fbedd7;
   min-height: 100vh;
   color: hsl(var(--foreground));
-  background-color: #FBEDD7;
+  background-color: #fbedd7;
 }
 
 html {

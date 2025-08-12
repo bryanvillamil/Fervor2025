@@ -1,6 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import tailwindcss from '@tailwindcss/vite';
+import tailwind from '@astrojs/tailwind';
 
 import react from '@astrojs/react';
 
@@ -8,15 +8,16 @@ import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
+  // site: 'https://comfortdesign.com.co',
   vite: {
-    plugins: [tailwindcss()],
     resolve: {
       alias: {
         '@': '/src',
       },
     },
   },
-
-  integrations: [react()],
+  integrations: [react(), tailwind({
+    applyBaseStyles: false,
+  }),],
   adapter: vercel()
 });
