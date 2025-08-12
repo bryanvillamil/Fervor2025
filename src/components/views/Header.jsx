@@ -14,10 +14,10 @@ const Header = () => {
           <Heart className="w-12 h-12 text-white" />
         </div>
       </div> */}
-      <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-brand-300 via-brand-500 to-brand-700 bg-clip-text text-[#7D0F08]">
+      <h1 className="text-4xl md:text-6xl font-extrabold mb-4 text-primary uppercase font-montserratExtraBold">
         Fervor 2025
       </h1>
-      <p className="text-xl text-white/80 max-w-2xl mx-auto">
+      <p className="text-xl max-w-2xl mx-auto text-secondary font-montserratMedium">
         Un encuentro transformador donde Dios toca corazones y vidas
       </p>
     </motion.div>

@@ -5,7 +5,12 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        inter: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        montserratLight: ['montserrat-light', 'sans-serif'],
+        montserratRegular: ['montserrat-regular', 'sans-serif'],
+        montserratMedium: ['montserrat-medium', 'sans-serif'],
+        montserratBold: ['montserrat-bold', 'sans-serif'],
+        montserratExtraBold: ['montserrat-extra-bold', 'sans-serif'],
+        montserratBlack: ['montserrat-black', 'sans-serif'],
       },
       colors: {
         brand: {
@@ -21,9 +26,10 @@ export default {
           900: '#2a1a66',
           950: '#1b1342',
         },
-        primary: '#7d4dff',
-        secondary: '#f59e0b',
-        accent: '#22d3ee',
+        primary: '#8D1C0E',
+        secondary: '#864625',
+        terceary: '#e5b131',
+        champagne: '#FBEDD7',
       },
       container: {
         center: true,
@@ -37,7 +43,7 @@ export default {
       },
       backgroundImage: {
         'brand-gradient':
-          'linear-gradient(to bottom right, #1b1342, #4e29b4, #7d4dff)',
+          'linear-gradient(135deg, #f8f6f0 0%, #f5f1e8 15%, #f2ede3 30%, #ede6d9 45%, #e8ddd0 60%, #e3d4c7 75%, #ddc9b8 90%, #d6bea9 100%)',
       },
     },
   },

@@ -15,25 +15,37 @@ const { title = 'Evento Especial', logoSrc = '/logo.png' } =
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
   </head>
-  <body class="min-h-screen text-white font-inter bg-[#FBEDD7]">
-    <header
-      class="w-full border-b border-white/10 backdrop-blur supports-[backdrop-filter]:bg-white/5"
-    >
+  <body
+    class="text-white font-inter bg-[url('/bg-mobile.png')] bg-cover bg-center bg-no-repeat md:bg-white min-h-screen"
+  >
+    <!-- backdrop-blur supports-[backdrop-filter]:bg-white/5 -->
+    <header class="w-full border-b border-white/10">
       <div
         class="container mx-auto px-4 py-4 flex items-center justify-between"
       >
         <a href="/" class="flex items-center gap-3">
-          <img src={logoSrc} alt="Logo" class="h-10 w-auto" />
-          <span class="font-bold text-xl tracking-tight">{title}</span>
+          <img src={logoSrc} alt="Logo" class="h-[100px] md:h-18 w-auto" />
+        </a>
+
+        <a
+          href="https://ipuc.org.co/"
+          target="_blank"
+          class="flex items-center gap-3"
+        >
+          <img
+            src="/ipuc-logo.png"
+            alt="Logo"
+            class="h-[100px] md:h-18 w-auto"
+          />
         </a>
       </div>
     </header>
 
-    <main class="container mx-auto px-4 py-8">
+    <main class="container mx-auto md:px-4 py-4 md:py-6">
       <slot />
     </main>
   </body>

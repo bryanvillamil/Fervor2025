@@ -3,8 +3,22 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Users, Phone, Mail, MapPin, Calendar } from 'lucide-react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/Card';
+import {
+  Users,
+  Phone,
+  House,
+  Contact,
+  MapPin,
+  Calendar,
+  Handshake,
+} from 'lucide-react';
 import { useForm } from '@/hooks/useForm';
 
 const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
@@ -20,13 +34,19 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
   const validate = () => {
     const newErrors = {};
     if (!formData.nombre || !formData.nombre.trim()) {
-      newErrors.nombre = 'Este campo es obligatorio';
+      newErrors.nombre = 'Agrega tu Nombre Completo';
     }
     const tel = (formData.telefono || '').trim();
     if (!tel) {
-      newErrors.telefono = 'Este campo es obligatorio';
+      newErrors.telefono = 'Agrega tu numero de celular';
     } else if (!/^[0-9+()\-.\s]{7,}$/.test(tel)) {
-      newErrors.telefono = 'Ingresa un teléfono válido';
+      newErrors.telefono = 'Ingresa un numero de celular válido';
+    }
+    if (!formData.distrito || !formData.distrito.trim()) {
+      newErrors.distrito = 'Agrega el # de tu distrito';
+    }
+    if (!formData.congregacion || !formData.congregacion.trim()) {
+      newErrors.congregacion = 'Agrega tu Congregacion';
     }
     return newErrors;
   };
@@ -49,78 +69,162 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
     }
   };
 
+  // bg-brand-gradient
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="max-w-2xl mx-auto bg-gray-900 rounded-2xl"
+      className="max-w-2xl mx-auto bg-champagne rounded-2xl md:mt-8"
     >
       <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-2xl ">
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl text-white flex items-center justify-center gap-3">
-            <Users className="w-8 h-8 text-yellow-400" />
+          <CardTitle className="text-2xl text-terceary font-bold flex items-center justify-center gap-3">
+            <Users className="w-6 h-6" />
             Registro de Asistencia
           </CardTitle>
-          <CardDescription className="text-purple-200 text-lg">
-            Completa tu registro para confirmar tu asistencia al evento
+          <CardDescription className="text-primary text-base font-medium">
+            Bienvenido a Fervor 2025
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} noValidate className="space-y-6">
             <div className="grid gap-4">
               <div className="space-y-2">
-                <Label htmlFor="nombre" className="text-white font-medium">Nombre Completo *</Label>
+                <Label
+                  htmlFor="nombre"
+                  className="text-gray-900 font-bold flex items-center gap-2"
+                >
+                  <Contact className="w-5 h-5" />
+                  Nombre Completo *
+                </Label>
                 <Input
                   id="nombre"
                   name="nombre"
                   value={formData.nombre}
                   onChange={(e) => {
-                    if (errors.nombre) setErrors((prev) => ({ ...prev, nombre: undefined }));
+                    if (errors.nombre)
+                      setErrors((prev) => ({ ...prev, nombre: undefined }));
                     handleInputChange(e);
                   }}
                   aria-invalid={!!errors.nombre}
-                  className={`bg-white/20 border-white/30 text-white placeholder:text-purple-200 ${errors.nombre ? 'border-red-500 ring-1 ring-red-500 placeholder:text-red-200' : ''}`}
+                  className={`bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 ${
+                    errors.nombre
+                      ? 'border-red-500 ring-1 ring-red-500 placeholder:text-red-200'
+                      : ''
+                  }`}
                   placeholder="Tu nombre"
-                  required
                 />
                 {errors.nombre && (
-                  <p className="text-red-400 text-sm">{errors.nombre}</p>
+                  <p className="text-red-500 font-bold text-[12px]">
+                    {errors.nombre}
+                  </p>
                 )}
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="telefono" className="text-white font-medium flex items-center gap-2"><Phone className="w-4 h-4" />Celular *</Label>
+              <Label
+                htmlFor="telefono"
+                className="text-gray-900 font-bold flex items-center gap-2"
+              >
+                <Phone className="w-5 h-5" />
+                Celular *
+              </Label>
               <Input
                 id="telefono"
                 name="telefono"
                 type="tel"
                 value={formData.telefono}
                 onChange={(e) => {
-                  if (errors.telefono) setErrors((prev) => ({ ...prev, telefono: undefined }));
+                  if (errors.telefono)
+                    setErrors((prev) => ({ ...prev, telefono: undefined }));
                   handleInputChange(e);
                 }}
                 aria-invalid={!!errors.telefono}
-                className={`bg-white/20 border-white/30 text-white placeholder:text-purple-200 ${errors.telefono ? 'border-red-500 ring-1 ring-red-500 placeholder:text-red-200' : ''}`}
+                className={`bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 ${
+                  errors.telefono
+                    ? 'border-red-500 ring-1 ring-red-500 placeholder:text-red-200'
+                    : ''
+                }`}
                 placeholder="Tu número de celular"
                 required
               />
               {errors.telefono && (
-                <p className="text-red-400 text-sm">{errors.telefono}</p>
+                <p className="text-red-500 font-bold text-[12px]">
+                  {errors.telefono}
+                </p>
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="distrito" className="text-white font-medium flex items-center gap-2"><MapPin className="w-4 h-4" />A qué Distrito perteneces?</Label>
-              <Input id="distrito" name="distrito" type="tel" value={formData.distrito} onChange={handleInputChange} className="bg-white/20 border-white/30 text-white placeholder:text-purple-200" placeholder="Tu distrito" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="congregacion" className="text-white font-medium flex items-center gap-2"><MapPin className="w-4 h-4" />Nombre de tu Congregación</Label>
-              <Input id="congregacion" name="congregacion" value={formData.congregacion} onChange={handleInputChange} className="bg-white/20 border-white/30 text-white placeholder:text-purple-200" placeholder="Tu congregación" />
-            </div>
-            <div className="space-y-2">
-              <Label className="text-white font-medium flex items-center gap-2">
-                <MapPin className="w-4 h-4" />Asistencia
+              <Label
+                htmlFor="distrito"
+                className="text-gray-900 font-bold flex items-center gap-2"
+              >
+                <MapPin className="w-5 h-5" />A qué Distrito perteneces? *
               </Label>
-              <div className="flex items-center gap-6 text-white">
+              <Input
+                id="distrito"
+                name="distrito"
+                type="tel"
+                value={formData.distrito}
+                onChange={(e) => {
+                  if (errors.distrito)
+                    setErrors((prev) => ({ ...prev, distrito: undefined }));
+                  handleInputChange(e);
+                }}
+                aria-invalid={!!errors.distrito}
+                className={`bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 ${
+                  errors.distrito
+                    ? 'border-red-500 ring-1 ring-red-500 placeholder:text-red-200'
+                    : ''
+                }`}
+                placeholder="Tu distrito"
+                required
+              />
+              {errors.distrito && (
+                <p className="text-red-500 font-bold text-[12px]">
+                  {errors.distrito}
+                </p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label
+                htmlFor="congregacion"
+                className="text-gray-900 font-bold flex items-center gap-2"
+              >
+                <House className="w-5 h-5" />
+                Nombre de tu Congregación *
+              </Label>
+              <Input
+                id="congregacion"
+                name="congregacion"
+                value={formData.congregacion}
+                onChange={(e) => {
+                  if (errors.congregacion)
+                    setErrors((prev) => ({ ...prev, congregacion: undefined }));
+                  handleInputChange(e);
+                }}
+                aria-invalid={!!errors.congregacion}
+                className={`bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 ${
+                  errors.congregacion
+                    ? 'border-red-500 ring-1 ring-red-500 placeholder:text-red-200'
+                    : ''
+                }`}
+                placeholder="Tu congregación"
+                required
+              />
+              {errors.congregacion && (
+                <p className="text-red-500 font-bold text-[12px]">
+                  {errors.congregacion}
+                </p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label className="text-gray-900 font-bold flex items-center gap-2">
+                <Handshake className="w-5 h-5" />
+                Asistencia *
+              </Label>
+              <div className="flex items-center gap-6 text-primary font-bold">
                 <label className="flex items-center gap-2">
                   <input
                     type="radio"
@@ -128,9 +232,9 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
                     value="presencial"
                     checked={formData.asistencia === 'presencial'}
                     onChange={handleInputChange}
-                    className="accent-brand-500"
+                    className="text-primary font-bold"
                   />
-                  <span>Presencial</span>
+                  <span className="text-[14px]">Presencial</span>
                 </label>
                 <label className="flex items-center gap-2">
                   <input
@@ -139,15 +243,18 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
                     value="virtual"
                     checked={formData.asistencia === 'virtual'}
                     onChange={handleInputChange}
-                    className="accent-brand-500"
+                    className="text-primary font-bold"
                   />
-                  <span>Virtual</span>
+                  <span className="text-[14px]">Virtual</span>
                 </label>
               </div>
             </div>
-            <Button type="submit" className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-bold py-3 text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
+            <Button
+              type="submit"
+              className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/50 hover:to-secondary/50 text-white font-bold py-6 text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+            >
               <Calendar className="w-5 h-5 mr-2" />
-              Confirmar Asistencia
+              !Confirma tu Asistencia!
             </Button>
           </form>
         </CardContent>

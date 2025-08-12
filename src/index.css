@@ -29,12 +29,9 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
-  /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
-  background: #fbedd7;
-  min-height: 100vh;
+  min-height: max-content;
   color: hsl(var(--foreground));
-  background-color: #fbedd7;
+  background: #fff;
 }
 
 html {
