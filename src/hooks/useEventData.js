@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { toast } from '@/components/ui/use-toast';
-import { supabase } from '@/lib/supabaseClient';
+import { getSupabase } from '@/lib/supabaseClient';
 
 export const useEventData = () => {
   const [isRegistered, setIsRegistered] = useState(() => {
@@ -25,6 +25,15 @@ export const useEventData = () => {
     }
 
     try {
+      const supabase = getSupabase();
+      if (!supabase) {
+        toast({
+          title: 'Configuración faltante',
+          description: 'No se detectaron las variables PUBLIC_SUPABASE_URL/ANON_KEY. Contacta al administrador.',
+          variant: 'destructive',
+        });
+        return false;
+      }
       const payload = {
         nombre: String(formData.nombre).trim(),
         telefono: String(formData.telefono).trim(),
@@ -54,6 +63,7 @@ export const useEventData = () => {
 
       // Marcar estado local como registrado
       localStorage.setItem('eventoIglesiaRegistrado', 'true');
+      localStorage.setItem('registroData', JSON.stringify(data));
       setIsRegistered(true);
     } catch (e) {
       console.error('Excepción al registrar en Supabase:', e);
