@@ -5,6 +5,7 @@ export interface Props {
 }
 const { title = 'Evento Especial', logoSrc = '/logo.png' } =
   Astro.props as Props;
+import CookieConsent from '@/components/ui/CookieConsent.jsx';
 ---
 
 <html lang="es">
@@ -12,6 +13,7 @@ const { title = 'Evento Especial', logoSrc = '/logo.png' } =
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -25,28 +27,35 @@ const { title = 'Evento Especial', logoSrc = '/logo.png' } =
     <!-- backdrop-blur supports-[backdrop-filter]:bg-white/5 -->
     <header class="w-full border-b border-white/10">
       <div
-        class="container mx-auto px-4 py-4 flex items-center justify-between"
+        class="container mx-auto px-4 py-4 flex items-center justify-between flex-wrap"
       >
-        <a href="/" class="flex items-center gap-3">
-          <img src={logoSrc} alt="Logo" class="h-[100px] md:h-18 w-auto" />
-        </a>
-
         <a
           href="https://ipuc.org.co/"
           target="_blank"
-          class="flex items-center gap-3"
+          class="flex items-center justify-center gap-3 w-full sm:w-auto mb-4 sm:order-2"
         >
           <img
             src="/ipuc-logo.png"
             alt="Logo"
-            class="h-[100px] md:h-18 w-auto"
+            class="h-auto max-h-[45px] sm:max-h-[50px] lg:max-h-[65px] md:h-18 w-auto"
           />
         </a>
+        <a href="/" class="flex items-center gap-3 sm:order-1">
+          <img src={logoSrc} alt="Logo" class="h-[100px] md:h-18 w-auto" />
+        </a>
+
+        <img
+          src="/logo-conquistadores.png"
+          alt="Logo"
+          class="h-[100px] md:h-18 w-auto sm:order-3"
+        />
       </div>
     </header>
 
     <main class="container mx-auto md:px-4 py-4 md:py-6">
       <slot />
     </main>
+    {/** Modal de cookies y tratamiento de datos */}
+    <CookieConsent client:load />
   </body>
 </html>

@@ -19,26 +19,26 @@ const GraciasView = ({ onContinue }) => {
             transition={{ delay: 0.2, type: "spring" }}
             className="mb-6"
           >
-            <CheckCircle className="w-24 h-24 text-green-400 mx-auto" />
+            <CheckCircle className="w-20 h-20 text-primary mx-auto" />
           </motion.div>
-          <h2 className="text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl font-bold text-terceary mb-4">
             ¡Gracias por Registrarte! 🎉
           </h2>
-          <p className="text-xl text-purple-200 mb-8">
+          <p className="text-base text-primary font-medium mb-8">
             Tu registro ha sido confirmado. ¡Te esperamos en este evento especial donde Dios transformará vidas!
           </p>
           <div className="bg-white/20 rounded-lg p-6 mb-8">
-            <div className="flex items-center justify-center gap-2 text-yellow-400 mb-2">
+            <div className="flex items-center justify-center gap-2 text-secondary mb-2">
               <Clock className="w-5 h-5" />
               <span className="font-semibold">Información del Evento</span>
             </div>
-            <p className="text-white">
+            <p className="text-secondary">
               Mantente atento a tu teléfono y email para más detalles sobre el evento
             </p>
           </div>
           <Button
             onClick={onContinue}
-            className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-bold py-3 px-8 text-lg"
+            className="bg-gradient-to-r from-primary to-secondary hover:from-primary/50 hover:to-secondary/50 text-white font-bold py-3 px-8 text-lg"
           >
             Continuar
           </Button>

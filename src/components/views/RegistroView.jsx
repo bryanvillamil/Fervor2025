@@ -28,6 +28,7 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
     distrito: '',
     congregacion: '',
     asistencia: 'presencial',
+    edad: '',
   });
   const [errors, setErrors] = useState({});
 
@@ -79,11 +80,11 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
     >
       <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-2xl ">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl text-terceary font-bold flex items-center justify-center gap-3">
+          <CardTitle className="text-3xl text-terceary font-bold flex items-center justify-center gap-3 mb-4">
             <Users className="w-6 h-6" />
-            Registro de Asistencia
+            Registro de asistencia
           </CardTitle>
-          <CardDescription className="text-primary text-base font-medium">
+          <CardDescription className="text-primary text-sm font-medium">
             Aquí empieza tu momento con el Señor… ¡Bienvenido a Fervor!
           </CardDescription>
         </CardHeader>
@@ -219,6 +220,33 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
                 </p>
               )}
             </div>
+            {/* Edad por rangos (opcional) */}
+            <div className="space-y-2">
+              <Label
+                htmlFor="edad"
+                className="text-gray-900 font-bold flex items-center gap-2"
+              >
+                <Calendar className="w-5 h-5" />
+                Edad (rango)
+              </Label>
+              <select
+                id="edad"
+                name="edad"
+                value={formData.edad}
+                onChange={handleInputChange}
+                className="bg-white w-full border-white/30 text-secondary font-bold placeholder:text-secondary/50 placeholder:text-[12px] rounded-md h-11 px-3 text-[12px]"
+              >
+                <option value="" className="text-[11px]">
+                  Selecciona tu rango de edad
+                </option>
+                <option value="Menor de 14">Menor de 14 Años 👦🏻</option>
+                <option value="15–18">15–18 Años 🧑🏻‍🦱</option>
+                <option value="19–29">19–29 Años 🧑🏻</option>
+                <option value="30–45">30–45 Años 👨🏻</option>
+                <option value="45–64">45–64 Años 🧔🏻‍♂️</option>
+                <option value="65 o más">65 o más 👴🏻</option>
+              </select>
+            </div>
             <div className="space-y-2">
               <Label className="text-gray-900 font-bold flex items-center gap-2">
                 <Handshake className="w-5 h-5" />
@@ -234,7 +262,7 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
                     onChange={handleInputChange}
                     className="text-primary font-bold"
                   />
-                  <span className="text-[14px]">Presencial</span>
+                  <span className="text-[12px]">Presencial</span>
                 </label>
                 <label className="flex items-center gap-2">
                   <input
@@ -245,7 +273,7 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
                     onChange={handleInputChange}
                     className="text-primary font-bold"
                   />
-                  <span className="text-[14px]">Virtual</span>
+                  <span className="text-[12px]">Virtual</span>
                 </label>
               </div>
             </div>
