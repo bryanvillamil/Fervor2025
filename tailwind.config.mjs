@@ -11,6 +11,7 @@ export default {
         montserratBold: ['montserrat-bold', 'sans-serif'],
         montserratExtraBold: ['montserrat-extra-bold', 'sans-serif'],
         montserratBlack: ['montserrat-black', 'sans-serif'],
+        bebasNeue: ['bebas-neue', 'sans-serif'],
       },
       colors: {
         brand: {

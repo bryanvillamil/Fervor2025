@@ -38,16 +38,16 @@ export default function CookieConsent() {
       <div className="absolute inset-0 bg-black/60" onClick={accept} />
       <div className="relative w-full max-w-lg bg-white/90 backdrop-blur-lg rounded-xl border border-white/30 shadow-2xl overflow-hidden">
         <div className="px-6 py-5">
-          <h3 className="text-2xl font-bold text-primary mb-2 text-center">
+          <h3 className="text-3xl font-bold text-primary mb-4 text-center font-bebasNeue">
             Bienvenido a Fervor 2025
           </h3>
-          <p className="text-secondary text-sm leading-relaxed mb-4">
-            Dios te bendiga hermano, Usamos cookies para mejorar tu experiencia
-            y almacenamos de forma segura la información que registras con fines
+          <p className="text-secondary text-base leading-relaxed mb-4">
+            Dios te bendiga, Usamos cookies para mejorar tu experiencia y
+            almacenamos de forma segura la información que registras con fines
             de organización del evento. Al continuar, aceptas nuestra política
             de tratamiento de datos y uso de cookies.
           </p>
-          <ul className="list-disc pl-5 text-secondary/80 text-xs space-y-1 mb-5">
+          <ul className="list-disc pl-5 text-secondary/80 text-sm space-y-1 mb-5">
             <li>No compartimos tu información con terceros no autorizados.</li>
             <li>
               Puedes solicitar la eliminación de tus datos en cualquier momento.
