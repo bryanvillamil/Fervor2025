@@ -84,7 +84,7 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
             Registro de Asistencia
           </CardTitle>
           <CardDescription className="text-primary text-base font-medium">
-            Bienvenido a Fervor 2025
+            Aquí empieza tu momento con el Señor… ¡Bienvenido a Fervor!
           </CardDescription>
         </CardHeader>
         <CardContent>
