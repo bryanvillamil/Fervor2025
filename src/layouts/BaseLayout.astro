@@ -33,29 +33,31 @@ const { title = 'Evento Especial', logoSrc = '/logo.png' } =
   <body
     class="text-white bg-champagne bg-[url('/bg-mobile.png')] bg-cover bg-center bg-no-repeat md:bg-white min-h-screen font-bebasNeue"
   >
-    <header class="w-full border-b border-white/10">
+    <header class="w-full border-b border-white/10 mb-2">
       <div
-        class="container mx-auto px-4 py-4 flex items-center justify-between flex-wrap"
+        class="container mx-auto px-4 py-4 flex items-center justify-between"
       >
         <a
           href="https://ipuc.org.co/"
           target="_blank"
-          class="flex items-center justify-center gap-3 mb-4"
+          class="flex items-center justify-center gap-3"
         >
           <img
             src="/ipuc-logo.png"
             alt="Logo"
-            class="h-auto max-h-[120px] lg:max-h-[100px] md:h-18 w-auto"
+            class="h-auto max-h-[130px] lg:max-h-[100px] md:h-18 w-auto"
           />
         </a>
         <img
           src="/logo-conquistadores.png"
           alt="Logo"
-          class="h-[85px] md:h-18 w-auto"
+          class="h-auto sm:h-[85px] max-h-[100px] md:h-18 w-auto"
         />
-        <a href="/" class="flex items-center gap-3">
-          <img src={logoSrc} alt="Logo" class="h-[100px] md:h-18 w-auto" />
-        </a>
+        <img
+          src={logoSrc}
+          alt="Logo"
+          class="h-auto sm:h-[100px] max-h-[100px] md:h-18 w-auto"
+        />
       </div>
     </header>
 
@@ -73,12 +75,12 @@ const { title = 'Evento Especial', logoSrc = '/logo.png' } =
           <h3 class="text-lg font-bold text-gray-900 text-center pb-3 italic">
             ¡Síguenos en nuestras redes sociales!
           </h3>
-          <div class="flex items-center gap-6 text-lg">
+          <div class="flex items-center gap-2 text-lg">
             <a
               href="https://www.instagram.com/fervor.oficial?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
               target="_blank"
               rel="noopener noreferrer"
-              class="flex items-center font-bold justify-center my-4 text-primary"
+              class="flex items-center font-bold justify-center my-4 text-primary text-base"
             >
               <Instagram />
               @fervor.oficial
@@ -88,7 +90,7 @@ const { title = 'Evento Especial', logoSrc = '/logo.png' } =
               href="https://www.instagram.com/conquistadores9?igsh=MXB2bjJ5ZW1nMXlhaw=="
               target="_blank"
               rel="noopener noreferrer"
-              class="flex items-center font-bold justify-center text-primary"
+              class="flex items-center font-bold justify-center text-primary text-base"
             >
               <Instagram />
               @conquistadores9
