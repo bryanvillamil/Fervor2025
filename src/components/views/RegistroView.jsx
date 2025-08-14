@@ -83,7 +83,7 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
             Registro de asistencia
           </CardTitle>
           <CardDescription className="text-terceary text-base font-bold font-bebasNeue">
-            FERVOR 2025 LEGADO APÓSTOLICO, Bienvenido.
+            BIENVENIDO A FERVOR 2025 LEGADO APÓSTOLICO.
           </CardDescription>
         </CardHeader>
         <CardContent>

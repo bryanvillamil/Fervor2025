@@ -74,7 +74,7 @@ const OpcionesView = ({ onSelectView }) => {
           Queremos que nos cuentes si has tenido una experiencia con Dios esta
           noche.
         </h2>
-        <p className="text-gray-700 text-lg">
+        <p className="text-gray-700 text-lg font-bold my-8">
           Selecciona una opción para continuar
         </p>
       </div>
@@ -82,7 +82,7 @@ const OpcionesView = ({ onSelectView }) => {
       <div className="grid md:grid-cols-2 gap-8">
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           <Card
-            className="backdrop-blur-sm border-white/20 shadow-2xl cursor-pointer h-full"
+            className="bg-white border-white/20 shadow-2xl cursor-pointer h-full"
             onClick={() => onSelectView('testimonio')}
           >
             <CardContent className="p-8 text-center h-full flex flex-col justify-center">
@@ -95,13 +95,13 @@ const OpcionesView = ({ onSelectView }) => {
               <h3 className="text-lg font-bold italic text-gray-700">
                 ¡Queremos celebrar contigo lo que Dios está haciendo!
               </h3>
-              <p className="text-secondary text-base mb-6">
+              <p className="text-secondary text-base mb-6 text-justify">
                 Nos alegra saber que el Señor sigue bautizando con su Espíritu y
-                obrando de manera poderosa.Este es el comienzo de un hermoso
+                obrando de manera poderosa. Este es el comienzo de un hermoso
                 camino, y estamos aquí para acompañarte.
               </p>
               <Button className="bg-gradient-to-r from-primary to-secondary hover:from-primary/50 hover:to-secondary/50 text-white font-bold text-base py-6">
-                Compartir Testimonio
+                Compártenos tu testimonio
               </Button>
             </CardContent>
           </Card>
@@ -109,7 +109,7 @@ const OpcionesView = ({ onSelectView }) => {
 
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           <Card
-            className="bg-gradient-to-br from-primary/10 to-secondary/10 backdrop-blur-sm border-white/20 shadow-2xl cursor-pointer h-full"
+            className="bg-white border-white/20 shadow-2xl cursor-pointer h-full"
             onClick={() => onSelectView('acompanamiento')}
           >
             <CardContent className="p-8 text-center h-full flex flex-col justify-center">
@@ -117,14 +117,20 @@ const OpcionesView = ({ onSelectView }) => {
                 <Users className="w-10 h-10 text-white" />
               </div>
               <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                Deseo Acompañamiento
+                Deseo acompañamiento
               </h3>
-              <p className="text-secondary text-base mb-6">
+              <p className="text-secondary text-base mb-2 text-justify">
                 Solicita acompañamiento espiritual, oración o consejería
                 pastoral
               </p>
+              <span className="italic font-bold text-xs text-gray-500 text-center mb-6 bg-gray-100 p-2 rounded-md">
+                “Y considerémonos unos a otros para estimularnos al amor y a las
+                buenas obras; no dejando de congregarnos, como algunos tienen
+                por costumbre, sino exhortándonos; y tanto más, cuanto veis que
+                aquel día se acerca.” Heb 10:24-25
+              </span>
               <Button className="bg-gradient-to-r from-primary to-secondary hover:from-primary/50 hover:to-secondary/50 text-white font-bold text-base py-6">
-                Solicitar Acompañamiento
+                Solicita acompañamiento
               </Button>
             </CardContent>
           </Card>
