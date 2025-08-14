@@ -12,10 +12,10 @@ import {
 } from '@/components/ui/Card';
 import { HeartHandshake } from 'lucide-react';
 import { useForm } from '@/hooks/useForm';
-import { getUser } from '@/lib/userLocal';
+import { getActiveUser, getUser } from '@/lib/userLocal';
 
 const AcompanamientoView = ({ onSubmit, onBack }) => {
-  const user = getUser();
+  const user = getActiveUser() || getUser();
   const [formData, handleInputChange, reset] = useForm({
     nombre: user?.nombre || '',
     telefono: user?.telefono || '',

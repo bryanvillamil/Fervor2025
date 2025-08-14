@@ -12,10 +12,10 @@ import {
 } from '@/components/ui/Card';
 import { Hand } from 'lucide-react';
 import { useForm } from '@/hooks/useForm';
-import { getUser } from '@/lib/userLocal';
+import { getActiveUser, getUser } from '@/lib/userLocal';
 
 const TestimonioView = ({ onSubmit, onBack }) => {
-  const user = getUser();
+  const user = getActiveUser() || getUser();
   const [formData, handleInputChange, reset] = useForm({
     nombre: user?.nombre || '',
     testimonio: '',
