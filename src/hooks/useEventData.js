@@ -60,15 +60,30 @@ export const useEventData = () => {
 
       if (error) {
         console.error('Error insertando en Supabase:', error);
-        const details =
-          import.meta.env.DEV && error?.message
-            ? ` Detalle: ${error.message}`
-            : '';
-        toast({
-          title: 'Error al registrar',
-          description: `No pudimos guardar tu registro. Intenta de nuevo en unos minutos.${details}`,
-          variant: 'destructive',
-        });
+        const msg = String(error?.message || '').toLowerCase();
+        const isDuplicate =
+          error?.code === '23505' ||
+          msg.includes('duplicate key') ||
+          msg.includes('unique constraint');
+
+        if (isDuplicate) {
+          toast({
+            title: 'Registro ya realizado',
+            description:
+              'Solo puedes llenar el formulario con tus datos una vez.',
+            variant: 'warning',
+          });
+        } else {
+          const details =
+            import.meta.env.DEV && error?.message
+              ? ` Detalle: ${error.message}`
+              : '';
+          toast({
+            title: 'Error al registrar',
+            description: `No pudimos guardar tu registro. Intenta de nuevo en unos minutos.${details}`,
+            variant: 'destructive',
+          });
+        }
         return false;
       }
 
@@ -105,7 +120,8 @@ export const useEventData = () => {
 
     toast({
       title: '¡Registro exitoso! ',
-      description: 'Gracias por registrarte al evento. ¡Te esperamos!',
+      description: 'Gracias por registrarte a Fervor 2025. ¡Dios Te bendiga!',
+      variant: 'success',
     });
     return true;
   }, []);
@@ -115,12 +131,14 @@ export const useEventData = () => {
     if (
       !testimonioData?.nombre ||
       !String(testimonioData.nombre).trim() ||
+      !testimonioData?.telefono ||
+      !String(testimonioData.telefono).trim() ||
       !testimonioData?.testimonio ||
       !String(testimonioData.testimonio).trim()
     ) {
       toast({
         title: 'Campos requeridos',
-        description: 'Por favor completa tu nombre y testimonio',
+        description: 'Por favor completa tu nombre, teléfono y testimonio',
         variant: 'destructive',
       });
       return false;
@@ -141,8 +159,12 @@ export const useEventData = () => {
       const payload = {
         registro_id: testimonioData?.registroId ?? null,
         nombre: String(testimonioData.nombre).trim(),
-        telefono: testimonioData?.telefono
-          ? String(testimonioData.telefono).trim()
+        telefono: String(testimonioData.telefono).trim(),
+        distrito: testimonioData?.distrito
+          ? String(testimonioData.distrito).trim()
+          : null,
+        congregacion: testimonioData?.congregacion
+          ? String(testimonioData.congregacion).trim()
           : null,
         testimonio: String(testimonioData.testimonio).trim(),
       };
@@ -151,15 +173,30 @@ export const useEventData = () => {
 
       if (error) {
         console.error('Error insertando testimonio:', error);
-        const details =
-          import.meta.env.DEV && error?.message
-            ? ` Detalle: ${error.message}`
-            : '';
-        toast({
-          title: 'Error al enviar testimonio',
-          description: `No pudimos guardar tu testimonio. Intenta de nuevo.${details}`,
-          variant: 'destructive',
-        });
+        const msg = String(error?.message || '').toLowerCase();
+        const isDuplicate =
+          error?.code === '23505' ||
+          msg.includes('duplicate key') ||
+          msg.includes('unique constraint');
+
+        if (isDuplicate) {
+          toast({
+            title: 'Registro ya realizado',
+            description:
+              'Solo puedes llenar el formulario con tus datos una vez.',
+            variant: 'warning',
+          });
+        } else {
+          const details =
+            import.meta.env.DEV && error?.message
+              ? ` Detalle: ${error.message}`
+              : '';
+          toast({
+            title: 'Error al enviar testimonio',
+            description: `No pudimos guardar tu testimonio. Intenta de nuevo.${details}`,
+            variant: 'destructive',
+          });
+        }
         return false;
       }
     } catch (e) {
@@ -175,6 +212,7 @@ export const useEventData = () => {
     toast({
       title: '¡Testimonio enviado! 🙏',
       description: 'Gracias por compartir cómo Dios te tocó',
+      variant: 'success',
     });
     return true;
   }, []);
@@ -213,17 +251,11 @@ export const useEventData = () => {
         registro_id: acompanamientoData?.registroId ?? null,
         nombre: String(acompanamientoData.nombre).trim(),
         telefono: String(acompanamientoData.telefono).trim(),
-        email: acompanamientoData?.email
-          ? String(acompanamientoData.email).trim()
-          : null,
         tipo_acompanamiento: String(
           acompanamientoData.tipoAcompanamiento,
         ).trim(),
         mensaje: acompanamientoData?.mensaje
           ? String(acompanamientoData.mensaje).trim()
-          : null,
-        ciudad: acompanamientoData?.ciudad
-          ? String(acompanamientoData.ciudad).trim()
           : null,
       };
 
@@ -233,15 +265,30 @@ export const useEventData = () => {
 
       if (error) {
         console.error('Error insertando acompañamiento:', error);
-        const details =
-          import.meta.env.DEV && error?.message
-            ? ` Detalle: ${error.message}`
-            : '';
-        toast({
-          title: 'Error al enviar solicitud',
-          description: `No pudimos guardar tu solicitud. Intenta de nuevo.${details}`,
-          variant: 'destructive',
-        });
+        const msg = String(error?.message || '').toLowerCase();
+        const isDuplicate =
+          error?.code === '23505' ||
+          msg.includes('duplicate key') ||
+          msg.includes('unique constraint');
+
+        if (isDuplicate) {
+          toast({
+            title: '!Registro ya realizado',
+            description:
+              'Solo puedes llenar el formulario con tus datos una vez.',
+            variant: 'destructive',
+          });
+        } else {
+          const details =
+            import.meta.env.DEV && error?.message
+              ? ` Detalle: ${error.message}`
+              : '';
+          toast({
+            title: 'Error al enviar solicitud',
+            description: `No pudimos guardar tu solicitud. Intenta de nuevo.${details}`,
+            variant: 'destructive',
+          });
+        }
         return false;
       }
     } catch (e) {
@@ -257,6 +304,7 @@ export const useEventData = () => {
     toast({
       title: '¡Solicitud enviada! 💙',
       description: 'Pronto nos pondremos en contacto contigo',
+      variant: 'success',
     });
     return true;
   }, []);

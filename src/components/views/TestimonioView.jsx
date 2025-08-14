@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/Card';
-import { Heart } from 'lucide-react';
+import { Hand } from 'lucide-react';
 import { useForm } from '@/hooks/useForm';
 import { getUser } from '@/lib/userLocal';
 
@@ -20,6 +20,8 @@ const TestimonioView = ({ onSubmit, onBack }) => {
     nombre: user?.nombre || '',
     testimonio: '',
     telefono: user?.telefono || '',
+    distrito: user?.distrito || '',
+    congregacion: user?.congregacion || '',
   });
 
   const handleSubmit = async (e) => {
@@ -39,12 +41,12 @@ const TestimonioView = ({ onSubmit, onBack }) => {
       className="max-w-2xl mx-auto md:mt-8"
     >
       <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-2xl">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl text-terceary font-bold flex items-center justify-center gap-3">
-            <Heart className="w-6 h-6" />
+        <CardHeader className="text-center pb-2">
+          <CardTitle className="text-2xl text-primary font-bold flex items-center justify-center gap-3">
+            <Hand className="w-8 h-8" />
             Comparte tu Testimonio
           </CardTitle>
-          <CardDescription className="text-primary text-base font-medium">
+          <CardDescription className="text-gray-700 text-base font-bold">
             Cuéntanos cómo Dios obró en tu vida
           </CardDescription>
         </CardHeader>
@@ -53,7 +55,7 @@ const TestimonioView = ({ onSubmit, onBack }) => {
             <div className="space-y-2">
               <Label
                 htmlFor="testimonioNombre"
-                className="text-gray-900 font-bold"
+                className="text-gray-700 font-bold"
               >
                 Nombre *
               </Label>
@@ -62,13 +64,13 @@ const TestimonioView = ({ onSubmit, onBack }) => {
                 name="nombre"
                 value={formData.nombre}
                 onChange={handleInputChange}
-                className="bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50"
+                className="bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 h-[48px]"
                 placeholder="Tu nombre"
                 required
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="testimonio" className="text-gray-900 font-bold">
+              <Label htmlFor="testimonio" className="text-gray-700 font-bold">
                 Tu Testimonio *
               </Label>
               <textarea
@@ -84,9 +86,9 @@ const TestimonioView = ({ onSubmit, onBack }) => {
             <div className="space-y-2">
               <Label
                 htmlFor="testimonioTelefono"
-                className="text-gray-900 font-bold"
+                className="text-gray-700 font-bold"
               >
-                Teléfono (opcional)
+                Teléfono
               </Label>
               <Input
                 id="testimonioTelefono"
@@ -94,8 +96,43 @@ const TestimonioView = ({ onSubmit, onBack }) => {
                 type="tel"
                 value={formData.telefono}
                 onChange={handleInputChange}
-                className="bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50"
+                className="bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 h-[48px]"
                 placeholder="Tu teléfono"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label
+                htmlFor="testimonioDistrito"
+                className="text-gray-700 font-bold"
+              >
+                Distrito
+              </Label>
+              <Input
+                id="testimonioDistrito"
+                name="distrito"
+                value={formData.distrito}
+                onChange={handleInputChange}
+                className="bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 h-[48px]"
+                placeholder="Tu distrito"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label
+                htmlFor="testimonioCongregacion"
+                className="text-gray-700 font-bold"
+              >
+                Congregación
+              </Label>
+              <Input
+                id="testimonioCongregacion"
+                name="congregacion"
+                value={formData.congregacion}
+                onChange={handleInputChange}
+                className="bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 h-[48px]"
+                placeholder="Tu congregación"
+                required
               />
             </div>
             <div className="flex gap-4">
@@ -103,13 +140,13 @@ const TestimonioView = ({ onSubmit, onBack }) => {
                 type="button"
                 onClick={onBack}
                 variant="outline"
-                className="flex-1 border-secondary/30 text-secondary hover:bg-secondary/10"
+                className="flex-1 border-secondary/30 text-secondary hover:bg-secondary/10 py-6 font-bold"
               >
                 Volver
               </Button>
               <Button
                 type="submit"
-                className="flex-1 bg-gradient-to-r from-primary to-secondary hover:from-primary/50 hover:to-secondary/50 text-white font-bold"
+                className="flex-1 bg-gradient-to-r from-primary to-secondary hover:from-primary/50 hover:to-secondary/50 text-white font-bold py-6"
               >
                 Enviar Testimonio
               </Button>

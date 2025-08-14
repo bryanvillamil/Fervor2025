@@ -83,7 +83,7 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
             Registro de asistencia
           </CardTitle>
           <CardDescription className="text-terceary text-base font-bold font-bebasNeue">
-            Aquí empieza tu momento con el Señor… ¡Bienvenido a Fervor!
+            FERVOR 2025 LEGADO APÓSTOLICO, Bienvenido.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -107,7 +107,7 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
                     handleInputChange(e);
                   }}
                   aria-invalid={!!errors.nombre}
-                  className={`bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 placeholder:text-base ${
+                  className={`bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 placeholder:text-base h-[48px] ${
                     errors.nombre
                       ? 'border-red-500 ring-1 ring-red-500 placeholder:text-red-200'
                       : ''
@@ -140,7 +140,7 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
                   handleInputChange(e);
                 }}
                 aria-invalid={!!errors.telefono}
-                className={`bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 placeholder:text-base ${
+                className={`bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 placeholder:text-base h-[48px] ${
                   errors.telefono
                     ? 'border-red-500 ring-1 ring-red-500 placeholder:text-red-200'
                     : ''
@@ -172,7 +172,7 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
                   handleInputChange(e);
                 }}
                 aria-invalid={!!errors.distrito}
-                className={`bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 placeholder:text-base ${
+                className={`bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 placeholder:text-base h-[48px] ${
                   errors.distrito
                     ? 'border-red-500 ring-1 ring-red-500 placeholder:text-red-200'
                     : ''
@@ -204,7 +204,7 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
                   handleInputChange(e);
                 }}
                 aria-invalid={!!errors.congregacion}
-                className={`bg-white border-white/30 text-gray-700 font-bold placeholder:text-secondary/50 placeholder:text-base ${
+                className={`bg-white border-white/30 text-gray-700 font-bold placeholder:text-secondary/50 placeholder:text-base h-[48px] ${
                   errors.congregacion
                     ? 'border-red-500 ring-1 ring-red-500 placeholder:text-red-200'
                     : ''
@@ -232,7 +232,7 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
                 name="edad"
                 value={formData.edad}
                 onChange={handleInputChange}
-                className="bg-white w-full border-white/30 text-secondary font-bold placeholder:text-secondary/50 placeholder:text-[12px] rounded-md h-11 px-3 text-base"
+                className="bg-white w-full border-white/30 text-secondary font-bold placeholder:text-secondary/50 placeholder:text-[12px] rounded-md px-3 text-base h-[48px]"
               >
                 <option value="" className="text-base">
                   Selecciona tu rango de edad

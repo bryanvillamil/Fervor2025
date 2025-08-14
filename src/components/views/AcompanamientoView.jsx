@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/Card';
-import { Users } from 'lucide-react';
+import { HeartHandshake } from 'lucide-react';
 import { useForm } from '@/hooks/useForm';
 import { getUser } from '@/lib/userLocal';
 
@@ -19,7 +19,6 @@ const AcompanamientoView = ({ onSubmit, onBack }) => {
   const [formData, handleInputChange, reset] = useForm({
     nombre: user?.nombre || '',
     telefono: user?.telefono || '',
-    email: '',
     tipoAcompanamiento: '',
     mensaje: '',
     ciudad: '',
@@ -43,11 +42,11 @@ const AcompanamientoView = ({ onSubmit, onBack }) => {
     >
       <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-2xl">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl text-terceary font-bold flex items-center justify-center gap-3">
-            <Users className="w-6 h-6" />
+          <CardTitle className="text-2xl text-primary font-bold flex items-center justify-center gap-3">
+            <HeartHandshake className="w-8 h-8" />
             Solicitar Acompañamiento
           </CardTitle>
-          <CardDescription className="text-primary text-base font-medium">
+          <CardDescription className="text-gray-700 text-base font-bold ">
             Estamos aquí para acompañarte en tu caminar espiritual
           </CardDescription>
         </CardHeader>
@@ -56,7 +55,7 @@ const AcompanamientoView = ({ onSubmit, onBack }) => {
             <div className="space-y-2">
               <Label
                 htmlFor="acompanamientoNombre"
-                className="text-gray-900 font-bold"
+                className="text-gray-700 font-bold"
               >
                 Nombre *
               </Label>
@@ -65,7 +64,7 @@ const AcompanamientoView = ({ onSubmit, onBack }) => {
                 name="nombre"
                 value={formData.nombre}
                 onChange={handleInputChange}
-                className="bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50"
+                className="bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 h-[48px]"
                 placeholder="Tu nombre"
                 required
               />
@@ -73,7 +72,7 @@ const AcompanamientoView = ({ onSubmit, onBack }) => {
             <div className="space-y-2">
               <Label
                 htmlFor="acompanamientoTelefono"
-                className="text-gray-900 font-bold"
+                className="text-gray-700 font-bold"
               >
                 Teléfono *
               </Label>
@@ -83,32 +82,16 @@ const AcompanamientoView = ({ onSubmit, onBack }) => {
                 type="tel"
                 value={formData.telefono}
                 onChange={handleInputChange}
-                className="bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50"
+                className="bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 h-[48px]"
                 placeholder="Tu teléfono"
                 required
               />
             </div>
-            <div className="space-y-2">
-              <Label
-                htmlFor="acompanamientoEmail"
-                className="text-gray-900 font-bold"
-              >
-                Email
-              </Label>
-              <Input
-                id="acompanamientoEmail"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50"
-                placeholder="tu@email.com"
-              />
-            </div>
+
             <div className="space-y-2">
               <Label
                 htmlFor="tipoAcompanamiento"
-                className="text-gray-900 font-bold"
+                className="text-gray-700 font-bold"
               >
                 Tipo de Acompañamiento *
               </Label>
@@ -117,31 +100,31 @@ const AcompanamientoView = ({ onSubmit, onBack }) => {
                 name="tipoAcompanamiento"
                 value={formData.tipoAcompanamiento}
                 onChange={handleInputChange}
-                className="w-full p-3 bg-white border border-white/30 rounded-md text-secondary font-bold text-[12px]"
+                className="w-full p-3 bg-white border border-white/30 rounded-md text-secondary font-bold text-[12px] h-[48px]"
                 required
               >
                 <option value="" className="text-gray-800">
                   Selecciona una opción
                 </option>
-                <option value="discipulado" className="text-gray-800">
+                <option value="Deseo ser bautizado" className="text-gray-800">
                   Deseo ser bautizado
                 </option>
-                <option value="oracion" className="text-gray-800">
-                  Oración
+                <option
+                  value="Deseo volver a los caminos del Señor"
+                  className="text-gray-800"
+                >
+                  Deseo volver a los caminos del Señor
                 </option>
-                <option value="consejeria" className="text-gray-800">
-                  Consejería
-                </option>
-                <option value="visitaPastoral" className="text-gray-800">
-                  Visita
-                </option>
-                <option value="otro" className="text-gray-800">
-                  Otro
+                <option
+                  value="Deseo saber donde congregarme en mi barrio o ciudad"
+                  className="text-gray-800"
+                >
+                  Deseo saber donde congregarme en mi barrio o ciudad
                 </option>
               </select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="mensaje" className="text-gray-900 font-bold">
+              <Label htmlFor="mensaje" className="text-gray-700 font-bold">
                 Mensaje (opcional)
               </Label>
               <textarea
@@ -158,13 +141,13 @@ const AcompanamientoView = ({ onSubmit, onBack }) => {
                 type="button"
                 onClick={onBack}
                 variant="outline"
-                className="flex-1 border-secondary/30 text-secondary hover:bg-secondary/10"
+                className="flex-1 border-secondary/30 text-secondary hover:bg-secondary/10 py-6 font-bold"
               >
                 Volver
               </Button>
               <Button
                 type="submit"
-                className="flex-1 bg-gradient-to-r from-primary to-secondary hover:from-primary/50 hover:to-secondary/50 text-white font-bold"
+                className="flex-1 bg-gradient-to-r from-primary to-secondary hover:from-primary/50 hover:to-secondary/50 text-white font-bold py-6"
               >
                 Enviar Solicitud
               </Button>
