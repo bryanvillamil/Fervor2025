@@ -70,13 +70,15 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
     }
   };
 
+  // bg-white/10 backdrop-blur-lg border-white/20
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="max-w-2xl mx-auto  backdrop-blur-sm rounded-2xl md:mt-8"
+      className="max-w-2xl mx-auto md:mt-8"
     >
-      <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-2xl ">
+      <Card className="bg-white shadow-2xl">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl text-primary font-bold flex items-center justify-center gap-3 mb-4 font-bebasNeue uppercase">
             <Users className="w-6 h-6" />
@@ -107,7 +109,7 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
                     handleInputChange(e);
                   }}
                   aria-invalid={!!errors.nombre}
-                  className={`bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 placeholder:text-base h-[48px] ${
+                  className={`bg-gray-200 border-white/30 text-gray-700 font-bold placeholder:text-gray-700/50 placeholder:text-base h-[48px] ${
                     errors.nombre
                       ? 'border-red-500 ring-1 ring-red-500 placeholder:text-red-200'
                       : ''
@@ -140,7 +142,7 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
                   handleInputChange(e);
                 }}
                 aria-invalid={!!errors.telefono}
-                className={`bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 placeholder:text-base h-[48px] ${
+                className={`bg-gray-200 border-white/30 text-gray-700 font-bold placeholder:text-gray-700/50 placeholder:text-base h-[48px] ${
                   errors.telefono
                     ? 'border-red-500 ring-1 ring-red-500 placeholder:text-red-200'
                     : ''
@@ -172,7 +174,7 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
                   handleInputChange(e);
                 }}
                 aria-invalid={!!errors.distrito}
-                className={`bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 placeholder:text-base h-[48px] ${
+                className={`bg-gray-200 border-white/30 text-gray-700 font-bold placeholder:text-gray-700/50 placeholder:text-base h-[48px] ${
                   errors.distrito
                     ? 'border-red-500 ring-1 ring-red-500 placeholder:text-red-200'
                     : ''
@@ -204,7 +206,7 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
                   handleInputChange(e);
                 }}
                 aria-invalid={!!errors.congregacion}
-                className={`bg-white border-white/30 text-gray-700 font-bold placeholder:text-secondary/50 placeholder:text-base h-[48px] ${
+                className={`bg-gray-200 border-white/30 text-gray-700 font-bold placeholder:text-gray-700/50 placeholder:text-base h-[48px] ${
                   errors.congregacion
                     ? 'border-red-500 ring-1 ring-red-500 placeholder:text-red-200'
                     : ''
@@ -232,7 +234,7 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
                 name="edad"
                 value={formData.edad}
                 onChange={handleInputChange}
-                className="bg-white w-full border-white/30 text-secondary font-bold placeholder:text-secondary/50 placeholder:text-[12px] rounded-md px-3 text-base h-[48px]"
+                className="bg-gray-200 w-full border-white/30 text-gray-500 font-bold placeholder:text-gray-700/50 placeholder:text-[12px] rounded-md px-3 text-base h-[48px]"
               >
                 <option value="" className="text-base">
                   Selecciona tu rango de edad

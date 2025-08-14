@@ -31,7 +31,7 @@ const { title = 'Evento Especial', logoSrc = '/logo.png' } =
     />
   </head>
   <body
-    class="text-white bg-champagne bg-[url('/bg-mobile.png')] bg-cover bg-center bg-no-repeat md:bg-white min-h-screen font-bebasNeue"
+    class="text-white bg-champagne/30 bg-[url('/bg-mobile.png')] bg-cover bg-center bg-no-repeat md:bg-white min-h-screen font-bebasNeue"
   >
     <header class="w-full border-b border-white/10 mb-2">
       <div
@@ -61,7 +61,9 @@ const { title = 'Evento Especial', logoSrc = '/logo.png' } =
       </div>
     </header>
 
-    <main class="container mx-auto md:px-4 py-4 md:py-6">
+    <main
+      class="container mx-auto md:px-4 py-4 md:py-6 border-none border-color-white"
+    >
       <slot />
     </main>
 
