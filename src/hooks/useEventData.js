@@ -222,7 +222,9 @@ export const useEventData = () => {
         congregacion: testimonioData?.congregacion
           ? String(testimonioData.congregacion).trim()
           : null,
-        recibielespiritusanto: Boolean(testimonioData.recibielespiritusanto),
+        recibielespiritusanto: testimonioData?.recibielespiritusanto
+          ? 'SI'
+          : 'NO',
       };
 
       const { error } = await supabase
