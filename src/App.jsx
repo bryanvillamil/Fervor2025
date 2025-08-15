@@ -9,7 +9,8 @@ import LoadingView from '@/components/views/LoadingView';
 import RegistroView from '@/components/views/RegistroView';
 import GraciasView from '@/components/views/GraciasView';
 import OpcionesView from '@/components/views/OpcionesView';
-import TestimonioView from '@/components/views/TestimonioView';
+import TestimonioView from '@/components/views/LLenoEspirituSantoView';
+import TestimonioTextoView from '@/components/views/TestimonioView';
 import AcompanamientoView from '@/components/views/AcompanamientoView';
 
 function App() {
@@ -18,7 +19,8 @@ function App() {
     isRegistered,
     checkRegistration,
     handleRegistroSubmit,
-    handleTestimonioSubmit,
+    handleEspirituSantoSubmit,
+    handleTestimonioTextoSubmit,
     handleAcompanamientoSubmit,
   } = useEventData();
 
@@ -47,7 +49,7 @@ function App() {
       case 'testimonio':
         return (
           <TestimonioView
-            onSubmit={handleTestimonioSubmit}
+            onSubmit={handleEspirituSantoSubmit}
             onBack={() => setCurrentView('opciones')}
           />
         );
@@ -55,6 +57,13 @@ function App() {
         return (
           <AcompanamientoView
             onSubmit={handleAcompanamientoSubmit}
+            onBack={() => setCurrentView('opciones')}
+          />
+        );
+      case 'testimonioTexto':
+        return (
+          <TestimonioTextoView
+            onSubmit={handleTestimonioTextoSubmit}
             onBack={() => setCurrentView('opciones')}
           />
         );

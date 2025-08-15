@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent } from '@/components/ui/Card';
-import { Heart, Users } from 'lucide-react';
+import { Heart, Users, MessageSquare } from 'lucide-react';
 import {
   getUsers,
   getActiveUser,
@@ -90,7 +90,7 @@ const OpcionesView = ({ onSelectView }) => {
                 <Heart className="w-10 h-10 text-white " />
               </div>
               <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                Fui bautizad@ con poder el Espiritu Santo
+                Fui lleno con el Espíritu Santo
               </h2>
               <h3 className="text-lg font-bold italic text-gray-700">
                 ¡Queremos celebrar contigo lo que Dios está haciendo!
@@ -101,7 +101,7 @@ const OpcionesView = ({ onSelectView }) => {
                 camino, y estamos aquí para acompañarte.
               </p>
               <Button className="bg-gradient-to-r from-primary to-secondary hover:from-primary/50 hover:to-secondary/50 text-white font-bold text-base py-6">
-                Compártenos tu testimonio
+                Recibi el Espíritu Santo
               </Button>
             </CardContent>
           </Card>
@@ -131,6 +131,30 @@ const OpcionesView = ({ onSelectView }) => {
               </span>
               <Button className="bg-gradient-to-r from-primary to-secondary hover:from-primary/50 hover:to-secondary/50 text-white font-bold text-base py-6">
                 Solicita acompañamiento
+              </Button>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* Nuevo: opción para compartir testimonio en texto */}
+        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <Card
+            className="bg-white border-white/20 shadow-2xl cursor-pointer h-full"
+            onClick={() => onSelectView('testimonioTexto')}
+          >
+            <CardContent className="p-8 text-center h-full flex flex-col justify-center">
+              <div className="bg-gradient-to-br from-emerald-500 to-emerald-800 p-4 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center ring-1 ring-white/20 shadow-lg">
+                <MessageSquare className="w-10 h-10 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                Compartenos tu Testimonio
+              </h3>
+              <p className="text-secondary text-base mb-6 text-justify">
+                Cuéntanos brevemente un testimonio o experiencia vivida durante
+                esta noche de <strong>FERVOR</strong>.
+              </p>
+              <Button className="bg-gradient-to-r from-primary to-secondary hover:from-primary/50 hover:to-secondary/50 text-white font-bold text-base py-6">
+                Compartenos tu Testimonio
               </Button>
             </CardContent>
           </Card>

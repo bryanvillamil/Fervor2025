@@ -10,18 +10,16 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/Card';
-import { HeartHandshake } from 'lucide-react';
+import { Flame } from 'lucide-react';
 import { useForm } from '@/hooks/useForm';
 import { getActiveUser, getUser } from '@/lib/userLocal';
 
-const AcompanamientoView = ({ onSubmit, onBack }) => {
+const TestimonioView = ({ onSubmit, onBack }) => {
   const user = getActiveUser() || getUser();
   const [formData, handleInputChange, reset] = useForm({
     nombre: user?.nombre || '',
+    recibielespiritusanto: false,
     telefono: user?.telefono || '',
-    tipoAcompanamiento: '',
-    mensaje: '',
-    ciudad: '',
     distrito: user?.distrito || '',
     congregacion: user?.congregacion || '',
   });
@@ -43,26 +41,26 @@ const AcompanamientoView = ({ onSubmit, onBack }) => {
       className="max-w-2xl mx-auto md:mt-8"
     >
       <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-2xl">
-        <CardHeader className="text-center">
+        <CardHeader className="text-center pb-2">
           <CardTitle className="text-2xl text-primary font-bold flex items-center justify-center gap-3">
-            <HeartHandshake className="w-8 h-8" />
-            Solicitar Acompañamiento
+            <Flame className="w-8 h-8" />
+            Fui lleno con el Espíritu Santo
           </CardTitle>
-          <CardDescription className="text-gray-700 text-base font-bold ">
-            Estamos aquí para acompañarte en tu caminar espiritual
+          <CardDescription className="text-gray-700 text-base font-bold">
+            Comparte tu experiencia
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <Label
-                htmlFor="acompanamientoNombre"
+                htmlFor="testimonioNombre"
                 className="text-gray-700 font-bold"
               >
                 Nombre Completo*
               </Label>
               <Input
-                id="acompanamientoNombre"
+                id="testimonioNombre"
                 name="nombre"
                 value={formData.nombre}
                 onChange={handleInputChange}
@@ -73,13 +71,51 @@ const AcompanamientoView = ({ onSubmit, onBack }) => {
             </div>
             <div className="space-y-2">
               <Label
-                htmlFor="acompanamientoDistrito"
+                htmlFor="recibielespiritusanto"
+                className="text-gray-700 font-bold"
+              >
+                ¿Recibiste el Espíritu Santo?*
+              </Label>
+              <div className="flex items-center gap-3">
+                <input
+                  id="recibielespiritusanto"
+                  name="recibielespiritusanto"
+                  type="checkbox"
+                  checked={!!formData.recibielespiritusanto}
+                  onChange={handleInputChange}
+                  className="h-5 w-5 accent-primary"
+                  required
+                />
+                <span className="text-gray-700 font-bold">Sí</span>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label
+                htmlFor="testimonioTelefono"
+                className="text-gray-700 font-bold"
+              >
+                Teléfono*
+              </Label>
+              <Input
+                id="testimonioTelefono"
+                name="telefono"
+                type="tel"
+                value={formData.telefono}
+                onChange={handleInputChange}
+                className="bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 h-[48px]"
+                placeholder="Tu teléfono"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label
+                htmlFor="testimonioDistrito"
                 className="text-gray-700 font-bold"
               >
                 Distrito*
               </Label>
               <Input
-                id="acompanamientoDistrito"
+                id="testimonioDistrito"
                 name="distrito"
                 value={formData.distrito}
                 onChange={handleInputChange}
@@ -90,86 +126,19 @@ const AcompanamientoView = ({ onSubmit, onBack }) => {
             </div>
             <div className="space-y-2">
               <Label
-                htmlFor="acompanamientoCongregacion"
+                htmlFor="testimonioCongregacion"
                 className="text-gray-700 font-bold"
               >
                 Congregación*
               </Label>
               <Input
-                id="acompanamientoCongregacion"
+                id="testimonioCongregacion"
                 name="congregacion"
                 value={formData.congregacion}
                 onChange={handleInputChange}
                 className="bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 h-[48px]"
                 placeholder="Tu congregación"
                 required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label
-                htmlFor="acompanamientoTelefono"
-                className="text-gray-700 font-bold"
-              >
-                Teléfono*
-              </Label>
-              <Input
-                id="acompanamientoTelefono"
-                name="telefono"
-                type="tel"
-                value={formData.telefono}
-                onChange={handleInputChange}
-                className="bg-white border-white/30 text-secondary font-bold placeholder:text-secondary/50 h-[48px]"
-                placeholder="Tu teléfono"
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label
-                htmlFor="tipoAcompanamiento"
-                className="text-gray-700 font-bold"
-              >
-                Tipo de Acompañamiento*
-              </Label>
-              <select
-                id="tipoAcompanamiento"
-                name="tipoAcompanamiento"
-                value={formData.tipoAcompanamiento}
-                onChange={handleInputChange}
-                className="w-full p-3 bg-white border border-white/30 rounded-md text-secondary font-bold text-[12px] h-[48px]"
-                required
-              >
-                <option value="" className="text-gray-800">
-                  Selecciona una opción
-                </option>
-                <option value="Deseo ser bautizado" className="text-gray-800">
-                  Deseo ser bautizado
-                </option>
-                <option
-                  value="Deseo volver a los caminos del Señor"
-                  className="text-gray-800"
-                >
-                  Deseo volver a los caminos del Señor
-                </option>
-                <option
-                  value="Deseo saber donde congregarme en mi barrio o ciudad"
-                  className="text-gray-800"
-                >
-                  Deseo saber donde congregarme en mi barrio o ciudad
-                </option>
-              </select>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="mensaje" className="text-gray-700 font-bold">
-                Mensaje (opcional)
-              </Label>
-              <textarea
-                id="mensaje"
-                name="mensaje"
-                value={formData.mensaje}
-                onChange={handleInputChange}
-                className="w-full min-h-24 p-3 bg-white border border-white/30 rounded-md text-secondary font-bold placeholder:text-secondary/50 resize-none"
-                placeholder="Cuéntanos más sobre tu solicitud..."
               />
             </div>
             <div className="flex gap-4">
@@ -185,7 +154,7 @@ const AcompanamientoView = ({ onSubmit, onBack }) => {
                 type="submit"
                 className="flex-1 bg-gradient-to-r from-primary to-secondary hover:from-primary/50 hover:to-secondary/50 text-white font-bold py-6"
               >
-                Enviar Solicitud
+                Enviar Testimonio
               </Button>
             </div>
           </form>
@@ -195,4 +164,4 @@ const AcompanamientoView = ({ onSubmit, onBack }) => {
   );
 };
 
-export default AcompanamientoView;
+export default TestimonioView;

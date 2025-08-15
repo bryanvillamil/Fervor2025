@@ -14,6 +14,63 @@ export const useEventData = () => {
     return registered;
   }, []);
 
+  // Nuevo: enviar testimonios de texto simples
+  const handleTestimonioTextoSubmit = useCallback(async (data) => {
+    // Validación: requiere únicamente el texto del testimonio
+    if (!data?.testimonio || !String(data.testimonio).trim()) {
+      toast({
+        title: 'Campos requeridos',
+        description: 'Por favor escribe tu testimonio',
+        variant: 'destructive',
+      });
+      return false;
+    }
+
+    try {
+      const supabase = getSupabase();
+      if (!supabase) {
+        toast({
+          title: 'Configuración faltante',
+          description:
+            'No se detectaron las variables PUBLIC_SUPABASE_URL/ANON_KEY. Contacta al administrador.',
+          variant: 'destructive',
+        });
+        return false;
+      }
+
+      const payload = {
+        registro_id: data?.registroId ?? null,
+        testimonio: String(data.testimonio).trim(),
+      };
+
+      const { error } = await supabase.from('testimonios').insert([payload]);
+      if (error) {
+        console.error('Error insertando testimonio de texto:', error);
+        toast({
+          title: 'Error al enviar testimonio',
+          description: 'No pudimos guardar tu testimonio. Intenta de nuevo.',
+          variant: 'destructive',
+        });
+        return false;
+      }
+    } catch (e) {
+      console.error('Excepción al enviar testimonio de texto:', e);
+      toast({
+        title: 'Error inesperado',
+        description: 'Ocurrió un error inesperado al enviar tu testimonio.',
+        variant: 'destructive',
+      });
+      return false;
+    }
+
+    toast({
+      title: '¡Testimonio enviado! 🙏',
+      description: 'Gracias por compartir lo que Dios hizo en tu vida',
+      variant: 'success',
+    });
+    return true;
+  }, []);
+
   const handleRegistroSubmit = useCallback(async (formData) => {
     // Validación alineada con el formulario actual: nombre y telefono son obligatorios
     if (
@@ -126,19 +183,18 @@ export const useEventData = () => {
     return true;
   }, []);
 
-  const handleTestimonioSubmit = useCallback(async (testimonioData) => {
-    // Validación mínima
+  const handleEspirituSantoSubmit = useCallback(async (testimonioData) => {
     if (
       !testimonioData?.nombre ||
       !String(testimonioData.nombre).trim() ||
       !testimonioData?.telefono ||
       !String(testimonioData.telefono).trim() ||
-      !testimonioData?.testimonio ||
-      !String(testimonioData.testimonio).trim()
+      !testimonioData?.recibielespiritusanto
     ) {
       toast({
         title: 'Campos requeridos',
-        description: 'Por favor completa tu nombre, teléfono y testimonio',
+        description:
+          'Por favor completa tu nombre, teléfono y confirma si recibiste el Espíritu Santo',
         variant: 'destructive',
       });
       return false;
@@ -166,13 +222,15 @@ export const useEventData = () => {
         congregacion: testimonioData?.congregacion
           ? String(testimonioData.congregacion).trim()
           : null,
-        testimonio: String(testimonioData.testimonio).trim(),
+        recibielespiritusanto: Boolean(testimonioData.recibielespiritusanto),
       };
 
-      const { error } = await supabase.from('testimonios').insert([payload]);
+      const { error } = await supabase
+        .from('llenosdelespiritusanto')
+        .insert([payload]);
 
       if (error) {
-        console.error('Error insertando testimonio:', error);
+        console.error('Error insertando en llenosdelespiritusanto:', error);
         const msg = String(error?.message || '').toLowerCase();
         const isDuplicate =
           error?.code === '23505' ||
@@ -192,26 +250,26 @@ export const useEventData = () => {
               ? ` Detalle: ${error.message}`
               : '';
           toast({
-            title: 'Error al enviar testimonio',
-            description: `No pudimos guardar tu testimonio. Intenta de nuevo.${details}`,
+            title: 'Error al registrar',
+            description: `No pudimos guardar tu registro. Intenta de nuevo.${details}`,
             variant: 'destructive',
           });
         }
         return false;
       }
     } catch (e) {
-      console.error('Excepción al enviar testimonio:', e);
+      console.error('Excepción al registrar llenura del Espíritu Santo:', e);
       toast({
         title: 'Error inesperado',
-        description: 'Ocurrió un error inesperado al enviar tu testimonio.',
+        description: 'Ocurrió un error inesperado al enviar tu registro.',
         variant: 'destructive',
       });
       return false;
     }
 
     toast({
-      title: '¡Testimonio enviado! 🙏',
-      description: 'Gracias por compartir cómo Dios te tocó',
+      title: '¡Registro enviado! 🙏',
+      description: 'Gracias por compartir que recibiste el Espíritu Santo',
       variant: 'success',
     });
     return true;
@@ -256,6 +314,12 @@ export const useEventData = () => {
         ).trim(),
         mensaje: acompanamientoData?.mensaje
           ? String(acompanamientoData.mensaje).trim()
+          : null,
+        distrito: acompanamientoData?.distrito
+          ? String(acompanamientoData.distrito).trim()
+          : null,
+        congregacion: acompanamientoData?.congregacion
+          ? String(acompanamientoData.congregacion).trim()
           : null,
       };
 
@@ -313,7 +377,8 @@ export const useEventData = () => {
     isRegistered,
     checkRegistration,
     handleRegistroSubmit,
-    handleTestimonioSubmit,
+    handleEspirituSantoSubmit,
     handleAcompanamientoSubmit,
+    handleTestimonioTextoSubmit,
   };
 };
