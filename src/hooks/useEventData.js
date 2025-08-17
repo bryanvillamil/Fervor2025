@@ -107,6 +107,8 @@ export const useEventData = () => {
           : null,
         asistencia: formData.asistencia || 'presencial',
         edad: formData.edad ? String(formData.edad).trim() : null,
+        bautizado_en_el_nombre:
+          formData?.bautizadoEnNombreDeJesus === 'SI' ? 'SI' : 'NO',
       };
 
       const { data, error } = await supabase

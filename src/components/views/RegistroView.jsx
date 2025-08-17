@@ -29,6 +29,7 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
     congregacion: '',
     asistencia: 'presencial',
     edad: '',
+    bautizadoEnNombreDeJesus: 'SI',
   });
   const [errors, setErrors] = useState({});
 
@@ -246,6 +247,36 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
                 <option value="45–64">45–64 Años 🧔🏻‍♂️</option>
                 <option value="65 o más">65 o más 👴🏻</option>
               </select>
+            </div>
+            {/* Bautizado en el Nombre de Jesús */}
+            <div className="space-y-2">
+              <Label className="text-gray-700 font-bold flex items-center gap-2 text-base">
+                ¿Estás bautizado en el Nombre de Jesús?
+              </Label>
+              <div className="flex items-center gap-6 text-primary font-bold">
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="bautizadoEnNombreDeJesus"
+                    value="SI"
+                    checked={formData.bautizadoEnNombreDeJesus === 'SI'}
+                    onChange={handleInputChange}
+                    className="text-primary font-bold"
+                  />
+                  <span className="text-base">Sí</span>
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="bautizadoEnNombreDeJesus"
+                    value="NO"
+                    checked={formData.bautizadoEnNombreDeJesus === 'NO'}
+                    onChange={handleInputChange}
+                    className="text-primary font-bold"
+                  />
+                  <span className="text-base">No</span>
+                </label>
+              </div>
             </div>
             <div className="space-y-2">
               <Label className="text-gray-700 font-bold flex items-center gap-2 text-base">
