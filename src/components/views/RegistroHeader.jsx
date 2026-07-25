@@ -19,8 +19,8 @@ const RegistroHeader = () => {
           <img src="/ipuc-logo.png" alt="Logo" className="h-32 w-auto" />
         </a>
       </div> */}
-      <p className="text-2xl max-w-2xl mx-auto text-primary font-bold uppercase font-montserratBold">
-        Legado Apostólico
+      <p className="mx-auto max-w-2xl font-bebasNeue text-3xl font-bold uppercase tracking-wide text-primary">
+        Identidad Celestial
       </p>
     </motion.div>
   );

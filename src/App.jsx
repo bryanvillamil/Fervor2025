@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Toaster } from '@/components/ui/Toaster';
 import { useEventData } from '@/hooks/useEventData';
+import { getCurrentYear } from '@/lib/utils';
 
-// import Header from '@/components/views/Header';
-import RegistroHeader from '@/components/views/RegistroHeader';
 import LoadingView from '@/components/views/LoadingView';
 import RegistroView from '@/components/views/RegistroView';
 import GraciasView from '@/components/views/GraciasView';
@@ -16,7 +15,6 @@ import AcompanamientoView from '@/components/views/AcompanamientoView';
 function App() {
   const [currentView, setCurrentView] = useState('loading');
   const {
-    isRegistered,
     checkRegistration,
     handleRegistroSubmit,
     handleEspirituSantoSubmit,
@@ -74,20 +72,19 @@ function App() {
   };
   //   bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900
   return (
-    <div className="h-full pb-8">
+    <div className="h-full">
       <Helmet>
-        <title>Fervor - 2025</title>
-        <meta name="description" content="Bienvenidos a Fervor 2025 - IPUC" />
-        <meta property="og:title" content="Fervor - 2025" />
+        <title>{`Registro Fervor ${getCurrentYear()} — Identidad Celestial`}</title>
+        <meta name="description" content={`Regístrate en Fervor ${getCurrentYear()} — Identidad Celestial`} />
+        <meta property="og:title" content={`Fervor ${getCurrentYear()} — Identidad Celestial`} />
 
         <meta
           property="og:description"
-          content="Bienvenidos a Fervor 2025 - IPUC"
+          content={`Regístrate en Fervor ${getCurrentYear()} — Identidad Celestial`}
         />
       </Helmet>
 
-      <div className="md:container mx-auto md:px-4">
-        {/* <RegistroHeader /> */}
+      <div className="mx-auto">
         {renderView()}
       </div>
 

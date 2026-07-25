@@ -3,13 +3,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/Card';
+import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import {
   Users,
   Phone,
@@ -18,8 +12,10 @@ import {
   MapPin,
   Calendar,
   Handshake,
+  ArrowRight,
 } from 'lucide-react';
 import { useForm } from '@/hooks/useForm';
+import { getCurrentYear } from '@/lib/utils';
 
 const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
   const [formData, handleInputChange] = useForm({
@@ -71,163 +67,147 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
     }
   };
 
-  // bg-white/10 backdrop-blur-lg border-white/20
+  const fieldVariants = {
+    hidden: { opacity: 0, y: 16 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: 0.06 * i, duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+    }),
+  };
+
+  const inputClass = (field) =>
+    `h-[48px] rounded-xl border bg-primary/[0.03] font-montserratMedium text-sm text-primary placeholder:text-primary/30 focus:border-terceary focus:ring-1 focus:ring-terceary/30 transition-colors ${
+      errors[field]
+        ? 'border-red-400 ring-1 ring-red-400/30'
+        : 'border-primary/10'
+    }`;
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className="max-w-2xl mx-auto md:mt-8"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      className="mx-auto max-w-2xl"
     >
-      <Card className="bg-white shadow-2xl">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl text-primary font-bold flex items-center justify-center gap-3 mb-4 font-bebasNeue uppercase">
-            <Users className="w-6 h-6" />
+      <Card className="overflow-hidden rounded-2xl border border-primary/[0.06] bg-white shadow-[0_20px_60px_rgba(0,22,42,0.08)] mt-28">
+        {/* Header */}
+        <CardHeader className="relative overflow-hidden border-b border-primary/[0.06] bg-gradient-to-br from-primary via-primary to-celestial px-6 py-8 text-center sm:px-10">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_120%,rgba(5,219,242,0.15),transparent)]" />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2, duration: 0.5, type: 'spring' }}
+            className="relative mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-terceary/15 ring-1 ring-terceary/20"
+          >
+            <Users className="h-6 w-6 text-terceary" />
+          </motion.div>
+          <motion.h2
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="relative font-bebasNeue text-3xl tracking-wide text-white"
+          >
             Registro de asistencia
-          </CardTitle>
-          <CardDescription className="text-terceary text-base font-bold font-bebasNeue">
-            BIENVENIDO A FERVOR 2025 LEGADO APÓSTOLICO.
-          </CardDescription>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+            className="relative mt-2 text-[10px] font-montserratBold uppercase tracking-[0.3em] text-terceary/80"
+          >
+            FERVOR {getCurrentYear()} · IDENTIDAD CELESTIAL
+          </motion.p>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} noValidate className="space-y-6">
-            <div className="grid gap-4">
-              <div className="space-y-2">
+
+        {/* Form */}
+        <CardContent className="p-6 sm:p-10">
+          <form onSubmit={handleSubmit} noValidate className="space-y-5">
+            {[
+              {
+                id: 'nombre',
+                label: 'Nombre Completo',
+                icon: Contact,
+                placeholder: 'Tu nombre completo',
+                type: 'text',
+                idx: 0,
+              },
+              {
+                id: 'telefono',
+                label: 'Celular',
+                icon: Phone,
+                placeholder: 'Tu número de celular',
+                type: 'tel',
+                idx: 1,
+              },
+              {
+                id: 'distrito',
+                label: '¿A qué Distrito perteneces?',
+                icon: MapPin,
+                placeholder: 'Tu distrito',
+                type: 'tel',
+                idx: 2,
+              },
+              {
+                id: 'congregacion',
+                label: 'Nombre de tu Congregación',
+                icon: House,
+                placeholder: 'Tu congregación',
+                type: 'text',
+                idx: 3,
+              },
+            ].map(({ id, label, icon: Icon, placeholder, type, idx }) => (
+              <motion.div
+                key={id}
+                custom={idx}
+                initial="hidden"
+                animate="visible"
+                variants={fieldVariants}
+                className="space-y-2"
+              >
                 <Label
-                  htmlFor="nombre"
-                  className="text-gray-700 font-bold flex items-center gap-2 text-base"
+                  htmlFor={id}
+                  className="flex items-center gap-2 text-sm font-montserratBold text-primary/70"
                 >
-                  <Contact className="w-5 h-5" />
-                  Nombre Completo *
+                  <Icon className="h-4 w-4 text-terceary" />
+                  {label} *
                 </Label>
                 <Input
-                  id="nombre"
-                  name="nombre"
-                  value={formData.nombre}
+                  id={id}
+                  name={id}
+                  type={type}
+                  value={formData[id]}
                   onChange={(e) => {
-                    if (errors.nombre)
-                      setErrors((prev) => ({ ...prev, nombre: undefined }));
+                    if (errors[id])
+                      setErrors((prev) => ({ ...prev, [id]: undefined }));
                     handleInputChange(e);
                   }}
-                  aria-invalid={!!errors.nombre}
-                  className={`bg-gray-200 border-white/30 text-gray-700 font-bold placeholder:text-gray-700/50 placeholder:text-base h-[48px] ${
-                    errors.nombre
-                      ? 'border-red-500 ring-1 ring-red-500 placeholder:text-red-200'
-                      : ''
-                  }`}
-                  placeholder="Tu nombre"
+                  aria-invalid={!!errors[id]}
+                  className={inputClass(id)}
+                  placeholder={placeholder}
+                  required
                 />
-                {errors.nombre && (
-                  <p className="text-red-500 font-bold text-[12px]">
-                    {errors.nombre}
+                {errors[id] && (
+                  <p className="text-xs font-montserratBold text-red-500">
+                    {errors[id]}
                   </p>
                 )}
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label
-                htmlFor="telefono"
-                className="text-gray-700 font-bold flex items-center gap-2 text-base"
-              >
-                <Phone className="w-5 h-5" />
-                Celular *
-              </Label>
-              <Input
-                id="telefono"
-                name="telefono"
-                type="tel"
-                value={formData.telefono}
-                onChange={(e) => {
-                  if (errors.telefono)
-                    setErrors((prev) => ({ ...prev, telefono: undefined }));
-                  handleInputChange(e);
-                }}
-                aria-invalid={!!errors.telefono}
-                className={`bg-gray-200 border-white/30 text-gray-700 font-bold placeholder:text-gray-700/50 placeholder:text-base h-[48px] ${
-                  errors.telefono
-                    ? 'border-red-500 ring-1 ring-red-500 placeholder:text-red-200'
-                    : ''
-                }`}
-                placeholder="Tu número de celular"
-                required
-              />
-              {errors.telefono && (
-                <p className="text-red-500 font-bold text-[12px]">
-                  {errors.telefono}
-                </p>
-              )}
-            </div>
-            <div className="space-y-2">
-              <Label
-                htmlFor="distrito"
-                className="text-gray-700 font-bold flex items-center gap-2 text-base"
-              >
-                <MapPin className="w-5 h-5" />A qué Distrito perteneces? *
-              </Label>
-              <Input
-                id="distrito"
-                name="distrito"
-                type="tel"
-                value={formData.distrito}
-                onChange={(e) => {
-                  if (errors.distrito)
-                    setErrors((prev) => ({ ...prev, distrito: undefined }));
-                  handleInputChange(e);
-                }}
-                aria-invalid={!!errors.distrito}
-                className={`bg-gray-200 border-white/30 text-gray-700 font-bold placeholder:text-gray-700/50 placeholder:text-base h-[48px] ${
-                  errors.distrito
-                    ? 'border-red-500 ring-1 ring-red-500 placeholder:text-red-200'
-                    : ''
-                }`}
-                placeholder="Tu distrito"
-                required
-              />
-              {errors.distrito && (
-                <p className="text-red-500 font-bold text-[12px]">
-                  {errors.distrito}
-                </p>
-              )}
-            </div>
-            <div className="space-y-2">
-              <Label
-                htmlFor="congregacion"
-                className="text-gray-700 font-bold flex items-center gap-2 text-base"
-              >
-                <House className="w-5 h-5" />
-                Nombre de tu Congregación *
-              </Label>
-              <Input
-                id="congregacion"
-                name="congregacion"
-                value={formData.congregacion}
-                onChange={(e) => {
-                  if (errors.congregacion)
-                    setErrors((prev) => ({ ...prev, congregacion: undefined }));
-                  handleInputChange(e);
-                }}
-                aria-invalid={!!errors.congregacion}
-                className={`bg-gray-200 border-white/30 text-gray-700 font-bold placeholder:text-gray-700/50 placeholder:text-base h-[48px] ${
-                  errors.congregacion
-                    ? 'border-red-500 ring-1 ring-red-500 placeholder:text-red-200'
-                    : ''
-                }`}
-                placeholder="Tu congregación"
-                required
-              />
-              {errors.congregacion && (
-                <p className="text-red-500 font-bold text-[12px]">
-                  {errors.congregacion}
-                </p>
-              )}
-            </div>
-            {/* Edad por rangos (opcional) */}
-            <div className="space-y-2">
+              </motion.div>
+            ))}
+
+            {/* Edad */}
+            <motion.div
+              custom={4}
+              initial="hidden"
+              animate="visible"
+              variants={fieldVariants}
+              className="space-y-2"
+            >
               <Label
                 htmlFor="edad"
-                className="text-gray-700 font-bold flex items-center gap-2 text-base"
+                className="flex items-center gap-2 text-sm font-montserratBold text-primary/70"
               >
-                <Calendar className="w-5 h-5" />
+                <Calendar className="h-4 w-4 text-terceary" />
                 Edad (rango)
               </Label>
               <select
@@ -235,86 +215,106 @@ const RegistroView = ({ onSubmit, onRegisterSuccess }) => {
                 name="edad"
                 value={formData.edad}
                 onChange={handleInputChange}
-                className="bg-gray-200 w-full border-white/30 text-gray-500 font-bold placeholder:text-gray-700/50 placeholder:text-[12px] rounded-md px-3 text-base h-[48px]"
+                className="h-[48px] w-full rounded-xl border border-primary/10 bg-primary/[0.03] px-3 font-montserratMedium text-sm text-primary transition-colors focus:border-terceary focus:ring-1 focus:ring-terceary/30 focus:outline-none"
               >
-                <option value="" className="text-base">
-                  Selecciona tu rango de edad
-                </option>
-                <option value="Menor de 14">Menor de 14 Años 👦🏻</option>
-                <option value="15–18">15–18 Años 🧑🏻‍🦱</option>
-                <option value="19–29">19–29 Años 🧑🏻</option>
-                <option value="30–45">30–45 Años 👨🏻</option>
-                <option value="45–64">45–64 Años 🧔🏻‍♂️</option>
-                <option value="65 o más">65 o más 👴🏻</option>
+                <option value="">Selecciona tu rango de edad</option>
+                <option value="Menor de 14">Menor de 14 Años</option>
+                <option value="15–18">15–18 Años</option>
+                <option value="19–29">19–29 Años</option>
+                <option value="30–45">30–45 Años</option>
+                <option value="45–64">45–64 Años</option>
+                <option value="65 o más">65 o más</option>
               </select>
-            </div>
-            {/* Bautizado en el Nombre de Jesús */}
-            <div className="space-y-2">
-              <Label className="text-gray-700 font-bold flex items-center gap-2 text-base">
+            </motion.div>
+
+            {/* Bautizado */}
+            <motion.div
+              custom={5}
+              initial="hidden"
+              animate="visible"
+              variants={fieldVariants}
+              className="space-y-3"
+            >
+              <Label className="text-sm font-montserratBold text-primary/70">
                 ¿Estás bautizado en el Nombre de Jesús?
               </Label>
-              <div className="flex items-center gap-6 text-primary font-bold">
-                <label className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name="bautizadoEnNombreDeJesus"
-                    value="SI"
-                    checked={formData.bautizadoEnNombreDeJesus === 'SI'}
-                    onChange={handleInputChange}
-                    className="text-primary font-bold"
-                  />
-                  <span className="text-base">Sí</span>
-                </label>
-                <label className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name="bautizadoEnNombreDeJesus"
-                    value="NO"
-                    checked={formData.bautizadoEnNombreDeJesus === 'NO'}
-                    onChange={handleInputChange}
-                    className="text-primary font-bold"
-                  />
-                  <span className="text-base">No</span>
-                </label>
+              <div className="flex items-center gap-5">
+                {['SI', 'NO'].map((val) => (
+                  <label
+                    key={val}
+                    className="flex cursor-pointer items-center gap-2"
+                  >
+                    <input
+                      type="radio"
+                      name="bautizadoEnNombreDeJesus"
+                      value={val}
+                      checked={formData.bautizadoEnNombreDeJesus === val}
+                      onChange={handleInputChange}
+                      className="h-4 w-4 accent-terceary"
+                    />
+                    <span className="text-sm font-montserratMedium text-primary">
+                      {val === 'SI' ? 'Sí' : 'No'}
+                    </span>
+                  </label>
+                ))}
               </div>
-            </div>
-            <div className="space-y-2">
-              <Label className="text-gray-700 font-bold flex items-center gap-2 text-base">
-                <Handshake className="w-5 h-5" />
+            </motion.div>
+
+            {/* Asistencia */}
+            <motion.div
+              custom={6}
+              initial="hidden"
+              animate="visible"
+              variants={fieldVariants}
+              className="space-y-3"
+            >
+              <Label className="flex items-center gap-2 text-sm font-montserratBold text-primary/70">
+                <Handshake className="h-4 w-4 text-terceary" />
                 Asistencia *
               </Label>
-              <div className="flex items-center gap-6 text-primary font-bold">
-                <label className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name="asistencia"
-                    value="presencial"
-                    checked={formData.asistencia === 'presencial'}
-                    onChange={handleInputChange}
-                    className="text-primary font-bold"
-                  />
-                  <span className="text-base">Presencial</span>
-                </label>
-                <label className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name="asistencia"
-                    value="virtual"
-                    checked={formData.asistencia === 'virtual'}
-                    onChange={handleInputChange}
-                    className="text-primary font-bold"
-                  />
-                  <span className="text-base">Virtual</span>
-                </label>
+              <div className="flex items-center gap-3">
+                {[
+                  { val: 'presencial', label: 'Presencial' },
+                  { val: 'virtual', label: 'Virtual' },
+                ].map(({ val, label }) => (
+                  <label
+                    key={val}
+                    className={`flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border px-4 py-3 transition-all duration-200 ${
+                      formData.asistencia === val
+                        ? 'border-terceary bg-terceary/[0.06] text-primary'
+                        : 'border-primary/10 bg-primary/[0.02] text-primary/40 hover:border-primary/20'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="asistencia"
+                      value={val}
+                      checked={formData.asistencia === val}
+                      onChange={handleInputChange}
+                      className="sr-only"
+                    />
+                    <span className="text-sm font-montserratBold">{label}</span>
+                  </label>
+                ))}
               </div>
-            </div>
-            <Button
-              type="submit"
-              className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/50 hover:to-secondary/50 text-white font-bold py-6 text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+            </motion.div>
+
+            {/* Submit */}
+            <motion.div
+              custom={7}
+              initial="hidden"
+              animate="visible"
+              variants={fieldVariants}
+              className="pt-3"
             >
-              <Calendar className="w-5 h-5 mr-2" />
-              !Confirma tu Asistencia!
-            </Button>
+              <Button
+                type="submit"
+                className="group w-full rounded-xl bg-gradient-to-r from-primary to-celestial py-6 text-sm font-montserratBold uppercase tracking-[0.12em] text-white shadow-[0_10px_30px_rgba(0,22,42,0.2)] transition-all duration-300 hover:shadow-[0_15px_40px_rgba(0,22,42,0.3)] hover:brightness-110"
+              >
+                Confirma tu Asistencia
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Button>
+            </motion.div>
           </form>
         </CardContent>
       </Card>

@@ -1,11 +1,11 @@
 ---
 import '../index.css';
-import App from '@/App';
+import HomePage from '@/components/views/HomePage';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-const title = 'Evento Especial';
-const logoSrc = '/logo.png';
+const title = 'Fervor 2026 — Identidad Celestial';
+const logoSrc = '/logo-fervor-2026.png';
 ---
 
-<BaseLayout {title} {logoSrc}>
-  <App client:only="react" />
+<BaseLayout {title} {logoSrc} immersive>
+  <HomePage client:only="react" />
 </BaseLayout>

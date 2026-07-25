@@ -25,13 +25,13 @@ const toastVariants = cva(
 			variant: {
 				default: 'bg-background border',
 				destructive:
-          'group destructive border-red-700 bg-red-600 text-white',
+          'group destructive border-peach/60 bg-primary text-white',
 				success:
-          'group border-emerald-700 bg-emerald-600 text-white',
+          'group border-secondary bg-celestial text-white',
 				warning:
-          'group border-amber-700 bg-amber-500 text-black',
+          'group border-peach bg-peach text-primary',
 				info:
-          'group border-blue-700 bg-blue-600 text-white',
+          'group border-terceary bg-secondary text-white',
 			},
 		},
 		defaultVariants: {
@@ -67,7 +67,7 @@ const ToastClose = React.forwardRef(({ className, ...props }, ref) => (
 	<ToastPrimitives.Close
 		ref={ref}
 		className={cn(
-			'absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-2 group-hover:opacity-100 group-[.destructive]:text-red-300 group-[.destructive]:hover:text-red-50 group-[.destructive]:focus:ring-red-400 group-[.destructive]:focus:ring-offset-red-600',
+			'absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-2 group-hover:opacity-100 group-[.destructive]:text-peach group-[.destructive]:hover:text-white group-[.destructive]:focus:ring-terceary group-[.destructive]:focus:ring-offset-primary',
 			className,
 		)}
 		toast-close=""

@@ -4,9 +4,13 @@ import { Instagram } from 'lucide-react';
 export interface Props {
   title?: string;
   logoSrc?: string;
+  immersive?: boolean;
 }
-const { title = 'Evento Especial', logoSrc = '/logo.png' } =
-  Astro.props as Props;
+const {
+  title = 'Fervor — Identidad Celestial',
+  logoSrc = '/logo-fervor-2026.png',
+  immersive = false,
+} = Astro.props as Props;
 ---
 
 <html lang="es">
@@ -30,89 +34,165 @@ const { title = 'Evento Especial', logoSrc = '/logo.png' } =
       rel="stylesheet"
     />
   </head>
-  <body
-    class="text-white bg-champagne/30 bg-[url('/bg-mobile.png')] bg-cover bg-center bg-no-repeat md:bg-white min-h-screen font-bebasNeue"
-  >
-    <header class="w-full border-b border-white/10 mb-2">
+  <body class="min-h-screen font-montserratRegular antialiased">
+    {immersive && (
+      <>
+        {/* Splash loader — first thing in DOM, covers everything */}
+        <div id="splash-loader" style="position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fff;">
+          <img src="/logo-fervor-2026.png" alt="Fervor 2026" style="height:5rem;width:auto;margin-bottom:2rem;object-fit:contain;" />
+          <div style="width:12rem;height:6px;border-radius:9999px;background:#e5e7eb;overflow:hidden;">
+            <div id="splash-bar" style="height:100%;width:0%;border-radius:9999px;background:#00162a;transition:width 0.08s linear;"></div>
+          </div>
+          <p id="splash-pct" style="margin-top:0.75rem;font-family:'Montserrat',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.2em;color:rgba(0,22,42,0.45);">0%</p>
+        </div>
+        <script is:inline>
+          (function(){
+            var bar=document.getElementById('splash-bar');
+            var pct=document.getElementById('splash-pct');
+            if(!bar)return;
+            var p=0;
+            var iv=setInterval(function(){
+              p+=1;
+              if(p>=100){p=100;clearInterval(iv);}
+              bar.style.width=p+'%';
+              pct.textContent=p+'%';
+            },20);
+          })();
+        </script>
+      </>
+    )}
+    <header
+      class="relative xl:absolute z-30 w-full bg-white shadow-[0_2px_16px_rgba(0,22,42,0.08)]"
+    >
       <div
-        class="container mx-auto px-4 py-4 flex items-center justify-between"
+        class="container mx-auto grid min-h-16 grid-cols-3 items-center gap-3 px-3 py-2 sm:min-h-20 sm:gap-5 sm:px-4 sm:py-3"
       >
+        {/* Izquierda — Fervor */}
         <a
-          href="https://ipuc.org.co/"
-          target="_blank"
-          class="flex items-center justify-center gap-3"
+          href="/"
+          aria-label="Ir al inicio de Fervor"
+          class="group flex items-center justify-start"
         >
           <img
-            src="/ipuc-logo.png"
-            alt="Logo"
-            class="h-auto max-h-[130px] lg:max-h-[100px] md:h-18 w-auto"
+            src={logoSrc}
+            alt="Fervor 2026 — Identidad Celestial"
+            class="h-auto w-28 max-w-[30vw] transition-transform duration-500 group-hover:scale-[1.03] sm:w-36 md:w-44"
           />
         </a>
-        <img
-          src="/logo-conquistadores.png"
-          alt="Logo"
-          class="h-auto sm:h-[85px] max-h-[100px] md:h-18 w-auto"
-        />
-        <img
-          src={logoSrc}
-          alt="Logo"
-          class="h-auto sm:h-[100px] max-h-[100px] md:h-18 w-auto"
-        />
+
+        {/* Centro — Firmes / Conquistadores */}
+        <div class="flex items-center justify-center">
+          <img
+            src="/logo-conquistadores.png"
+            alt="Firmes — Continuando el legado"
+            class="h-10 w-auto object-contain sm:h-14 md:h-16"
+          />
+        </div>
+
+        {/* Derecha — IPUC */}
+        <div class="flex items-center justify-end">
+          <a
+            href="https://ipuc.org.co/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visitar el sitio de IPUC"
+            class="transition-transform hover:-translate-y-0.5"
+          >
+            <img
+              src="/ipuc-logo.png"
+              alt="Iglesia Pentecostal Unida de Colombia"
+              class="h-12 w-auto sm:h-12 md:h-20"
+            />
+          </a>
+        </div>
       </div>
     </header>
 
     <main
-      class="container mx-auto md:px-4 py-4 md:py-6 border-none border-color-white"
+      class:list={[
+        immersive
+          ? 'w-full'
+          : 'relative mx-auto min-h-[65vh] w-full max-w-6xl px-4 py-8 md:px-8 md:py-12',
+      ]}
     >
+      {
+        !immersive && (
+          <>
+            <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+              <div class="celestial-orb absolute -left-24 top-10 h-72 w-72 rounded-full bg-terceary/15 blur-3xl" />
+              <div class="celestial-orb celestial-orb-delayed absolute -right-24 bottom-10 h-80 w-80 rounded-full bg-secondary/15 blur-3xl" />
+            </div>
+          </>
+        )
+      }
       <slot />
     </main>
 
     <footer
-      class="w-full border-t border-white/10 relative py-8 px-1 md:px-4 bg-primary/30"
+      class="relative overflow-hidden border-t border-white/10 bg-primary text-white"
     >
       <div
-        class="mx-auto py-4 flex flex-col items-center justify-between flex-wrap"
+        class="celestial-grid pointer-events-none absolute inset-0 opacity-60"
       >
-        <div class="flex flex-col items-center">
-          <h3 class="text-lg font-bold text-gray-900 text-center pb-3 italic">
-            ¡Síguenos en nuestras redes sociales!
-          </h3>
-          <div class="flex items-center gap-2 text-lg">
+      </div>
+      <div
+        class="relative mx-auto grid max-w-6xl gap-10 px-6 py-12 md:grid-cols-[1.2fr_1fr] md:px-8 md:py-16"
+      >
+        <div>
+          <a href="/" aria-label="Fervor — inicio" class="inline-block">
+            <img
+              src="/logo-fervor-2026.png"
+              alt="Fervor 2026 — Identidad Celestial"
+              class="w-40 md:w-60 max-w-full mix-blend-screen brightness-150"
+            />
+          </a>
+          <p class="mt-5 max-w-md text-sm leading-7 text-white/65">
+            Vigilia Conquistadores Pentecostales Distrito 9. Una noche para
+            recordar que nuestra ciudadanía está en los cielos.
+          </p>
+        </div>
+
+        <div class="md:justify-self-end">
+          <p
+            class="mb-4 text-xs font-bold uppercase tracking-[0.25em] text-terceary"
+          >
+            Conecta con nosotros
+          </p>
+          <div class="flex flex-col gap-3">
             <a
               href="https://www.instagram.com/fervor.oficial?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
               target="_blank"
               rel="noopener noreferrer"
-              class="flex items-center font-bold justify-center my-4 text-primary text-base"
+              class="flex items-center gap-2 text-sm font-bold text-white/75 transition-colors hover:text-terceary"
             >
-              <Instagram />
+              <Instagram class="h-5 w-5" />
               @fervor.oficial
             </a>
-            |
             <a
               href="https://www.instagram.com/conquistadores9?igsh=MXB2bjJ5ZW1nMXlhaw=="
               target="_blank"
               rel="noopener noreferrer"
-              class="flex items-center font-bold justify-center text-primary text-base"
+              class="flex items-center gap-2 text-sm font-bold text-white/75 transition-colors hover:text-terceary"
             >
-              <Instagram />
+              <Instagram class="h-5 w-5" />
               @conquistadores9
             </a>
           </div>
         </div>
+      </div>
 
-        <p class="text-white text-sm mt-4 pb-1 font-bold">
-          Fervor Oficial 2025.
-        </p>
-        <p class="text-white/75 text-sm pb-4">Todos los derechos reservados.</p>
-
-        <span
-          class="text-white/85 font-bold text-[12px] absolute bottom-6 right-7"
-          >By Bryan Villamil © {new Date().getFullYear()}</span
+      <div class="relative border-t border-white/10">
+        <div
+          class="mx-auto flex max-w-6xl flex-col justify-between gap-2 px-6 py-5 text-xs text-white/45 sm:flex-row md:px-8"
         >
+          <p>
+            Fervor Oficial {new Date().getFullYear()} | by Bryan Villamil.
+          </p>
+          <p>Todos los derechos reservados.</p>
+        </div>
       </div>
     </footer>
 
-    {/** Modal de cookies y tratamiento de datos */}
-    <CookieConsent client:load />
+    {!immersive && <CookieConsent client:load />}
   </body>
 </html>

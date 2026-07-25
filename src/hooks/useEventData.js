@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { getSupabase } from '@/lib/supabaseClient';
 import { setUser } from '@/lib/userLocal';
+import { getCurrentYear } from '@/lib/utils';
 
 export const useEventData = () => {
   const [isRegistered, setIsRegistered] = useState(() => {
@@ -179,7 +180,7 @@ export const useEventData = () => {
 
     toast({
       title: '¡Registro exitoso! ',
-      description: 'Gracias por registrarte a Fervor 2025. ¡Dios Te bendiga!',
+      description: `Gracias por registrarte a Fervor ${getCurrentYear()}. ¡Dios Te bendiga!`,
       variant: 'success',
     });
     return true;

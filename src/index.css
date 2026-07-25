@@ -3,10 +3,15 @@
 @tailwind utilities;
 
 :root {
-  --background: 222.2 84% 4.9%;
-  --foreground: #fbedd7;
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
+  --fervor-ink: #00162a;
+  --fervor-teal: #0099aa;
+  --fervor-cyan: #05dbf2;
+  --fervor-deep: #014040;
+  --fervor-peach: #febf89;
+  --background: 190 47% 97%;
+  --foreground: 208 100% 8%;
+  --card: 0 0% 100%;
+  --card-foreground: 208 100% 8%;
   --popover: 222.2 84% 4.9%;
   --popover-foreground: 210 40% 98%;
   --primary: 210 40% 98%;
@@ -29,13 +34,22 @@
 } */
 
 body {
-  min-height: max-content;
-  color: hsl(var(--foreground));
-  background: #fff;
+  min-height: 100vh;
+  color: var(--fervor-ink);
+  background:
+    radial-gradient(circle at 10% 8%, rgb(5 219 242 / 10%), transparent 26rem),
+    #f4fbfc;
+  overflow-x: hidden;
 }
 
 html {
   scroll-behavior: smooth;
+  background: var(--fervor-ink);
+}
+
+::selection {
+  color: white;
+  background: var(--fervor-teal);
 }
 
 /* Custom scrollbar */
@@ -44,17 +58,17 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--fervor-ink);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--fervor-teal);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--fervor-cyan);
 }
 
 /* Animations */
@@ -85,9 +99,8 @@ input:focus,
 textarea:focus,
 select:focus {
   outline: none;
-  ring: 2px;
-  ring-color: rgba(147, 197, 253, 0.5);
-  border-color: rgba(147, 197, 253, 0.8);
+  box-shadow: 0 0 0 3px rgb(5 219 242 / 20%);
+  border-color: var(--fervor-teal);
 }
 
 /* Button hover effects */
@@ -109,4 +122,118 @@ select:focus {
 .card-hover:hover {
   transform: translateY(-5px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.fervor-panel {
+  border: 1px solid rgb(0 153 170 / 18%);
+  background: rgb(255 255 255 / 92%);
+  box-shadow:
+    0 24px 70px rgb(0 22 42 / 12%),
+    inset 0 1px 0 rgb(255 255 255 / 80%);
+  backdrop-filter: blur(18px);
+}
+
+.fervor-panel input:not([type='radio']):not([type='checkbox']),
+.fervor-panel select,
+.fervor-panel textarea {
+  color: var(--fervor-ink);
+  border-color: rgb(0 153 170 / 20%);
+  background: #f4fbfc;
+}
+
+.fervor-panel input::placeholder,
+.fervor-panel textarea::placeholder {
+  color: rgb(0 22 42 / 42%);
+}
+
+.fervor-panel label {
+  color: var(--fervor-ink);
+}
+
+.celestial-grid {
+  background-image:
+    linear-gradient(rgb(5 219 242 / 5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(5 219 242 / 5%) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, black, transparent 88%);
+}
+
+@keyframes celestial-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.28;
+  }
+  50% {
+    transform: translate3d(2rem, -1.25rem, 0) scale(1.08);
+    opacity: 0.42;
+  }
+}
+
+.celestial-orb {
+  animation: celestial-drift 14s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.celestial-orb-delayed {
+  animation-delay: -7s;
+  animation-duration: 18s;
+}
+
+/* Light rays — vertical shimmer */
+@keyframes light-ray-pulse {
+  0%, 100% {
+    opacity: 0;
+    transform: scaleY(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+.light-ray {
+  animation: light-ray-pulse 4s ease-in-out infinite;
+  transform-origin: top center;
+  will-change: opacity, transform;
+}
+
+/* Floating particles */
+@keyframes particle-float {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.15;
+  }
+  25% {
+    transform: translate3d(1rem, -2rem, 0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate3d(-0.5rem, -4rem, 0);
+    opacity: 0.3;
+  }
+  75% {
+    transform: translate3d(1.5rem, -2rem, 0);
+    opacity: 0.5;
+  }
+}
+
+.particle {
+  animation: particle-float 8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

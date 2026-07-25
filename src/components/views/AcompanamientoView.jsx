@@ -40,19 +40,19 @@ const AcompanamientoView = ({ onSubmit, onBack }) => {
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="max-w-2xl mx-auto md:mt-8"
+      className="mx-auto max-w-2xl"
     >
-      <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-2xl">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl text-primary font-bold flex items-center justify-center gap-3">
-            <HeartHandshake className="w-8 h-8" />
+      <Card className="fervor-panel overflow-hidden rounded-3xl">
+        <CardHeader className="border-b border-secondary/10 bg-gradient-to-br from-primary to-celestial px-6 py-8 text-center">
+          <CardTitle className="flex items-center justify-center gap-3 font-bebasNeue text-3xl tracking-wide text-white">
+            <HeartHandshake className="h-8 w-8 text-terceary" />
             Solicitar Acompañamiento
           </CardTitle>
-          <CardDescription className="text-gray-700 text-base font-bold ">
+          <CardDescription className="font-montserratMedium text-sm text-white/65">
             Estamos aquí para acompañarte en tu caminar espiritual
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-6 sm:p-10">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <Label

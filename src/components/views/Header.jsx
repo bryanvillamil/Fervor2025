@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Heart } from 'lucide-react';
+import { getCurrentYear } from '@/lib/utils';
 
 const Header = () => {
   return (
@@ -14,11 +15,11 @@ const Header = () => {
           <Heart className="w-12 h-12 text-white" />
         </div>
       </div> */}
-      <h1 className="text-4xl md:text-6xl font-extrabold mb-4 text-primary uppercase font-montserratExtraBold">
-        Fervor 2025
+      <h1 className="mb-4 font-bebasNeue text-5xl uppercase tracking-wide text-primary md:text-7xl">
+        Fervor {getCurrentYear()}
       </h1>
-      <p className="text-xl max-w-2xl mx-auto text-secondary font-montserratMedium">
-        Un encuentro transformador donde Dios toca corazones y vidas
+      <p className="mx-auto max-w-2xl text-xl font-montserratMedium text-secondary">
+        Identidad Celestial
       </p>
     </motion.div>
   );

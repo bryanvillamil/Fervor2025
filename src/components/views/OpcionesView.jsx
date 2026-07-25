@@ -2,13 +2,51 @@ import React, { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent } from '@/components/ui/Card';
-import { Heart, Users, MessageSquare } from 'lucide-react';
+import { Heart, Users, MessageSquare, ArrowRight } from 'lucide-react';
 import {
   getUsers,
   getActiveUser,
   setActiveUserId,
-  clearUsers,
 } from '@/lib/userLocal';
+
+const cardVariant = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: 0.15 * i, duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+  }),
+};
+
+const OPCIONES = [
+  {
+    key: 'testimonio',
+    icon: Heart,
+    gradient: 'from-secondary to-celestial',
+    ring: 'ring-secondary/10',
+    title: 'Fui lleno con el Espíritu Santo',
+    desc: 'Nos alegra saber que el Señor sigue bautizando con su Espíritu y obrando de manera poderosa. Estamos aquí para acompañarte.',
+    cta: 'Recibí el Espíritu Santo',
+  },
+  {
+    key: 'acompanamiento',
+    icon: Users,
+    gradient: 'from-primary to-celestial',
+    ring: 'ring-primary/10',
+    title: 'Deseo acompañamiento',
+    desc: 'Solicita acompañamiento espiritual, oración o consejería pastoral. No tienes que caminar solo.',
+    cta: 'Solicitar acompañamiento',
+  },
+  {
+    key: 'testimonioTexto',
+    icon: MessageSquare,
+    gradient: 'from-terceary to-secondary',
+    ring: 'ring-terceary/10',
+    title: 'Compártenos tu testimonio',
+    desc: 'Cuéntanos brevemente una experiencia vivida durante esta noche de FERVOR.',
+    cta: 'Compartir testimonio',
+  },
+];
 
 const OpcionesView = ({ onSelectView }) => {
   const [confirmReRegister, setConfirmReRegister] = useState(false);
@@ -19,18 +57,11 @@ const OpcionesView = ({ onSelectView }) => {
   const handleSelectActive = (e) => {
     const id = e.target.value || null;
     setActiveUserId(id);
-    // no navigation here; just set active profile
-  };
-
-  const handleClearActive = () => {
-    setActiveUserId(null);
   };
 
   const handleReRegister = () => {
-    // No borramos perfiles anteriores; solo desactivamos el actual (si alguno)
     try {
       setActiveUserId(null);
-      // No tocar app.users ni registros previos
     } catch (_) {}
     onSelectView('registro');
   };
@@ -39,166 +70,134 @@ const OpcionesView = ({ onSelectView }) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="max-w-4xl mx-auto"
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      className="mx-auto max-w-5xl"
     >
-      {/* Selector de persona guardada (solo si hay dos o más personas) */}
+      {/* Profile selector */}
       {users.length >= 2 && (
-        <div className="mb-8 flex flex-wrap sm:flex-row items-center justify-center gap-3 bg-white p-4 rounded-md -mt-8">
-          <label className="text-sm text-gray-700 font-semibold w-full">
-            Persona Activa:
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.4 }}
+          className="mb-8 rounded-2xl border border-primary/[0.06] bg-white p-5 shadow-[0_4px_20px_rgba(0,22,42,0.04)]"
+        >
+          <label className="mb-2 block text-xs font-montserratBold uppercase tracking-[0.2em] text-primary/40">
+            Persona Activa
           </label>
           <select
             onChange={handleSelectActive}
             defaultValue={active?.id ? String(active.id) : ''}
-            className="bg-gray-200 border border-white/30 rounded-md px-3 py-2 text-gray-700 font-bold h-[48px] w-full "
+            className="h-[44px] w-full rounded-xl border border-primary/10 bg-primary/[0.03] px-3 font-montserratMedium text-sm text-primary focus:border-terceary focus:ring-1 focus:ring-terceary/30 focus:outline-none"
           >
             <option value="">Sin seleccionar</option>
             {users.map((u) => (
               <option key={u.id} value={String(u.id)}>
-                👤 {u.nombre || 'Sin nombre'} - 📞{' '}
-                {u.telefono || 'Sin telefono'}
+                {u.nombre || 'Sin nombre'} — {u.telefono || 'Sin telefono'}
               </option>
             ))}
           </select>
-          {/* <Button
-            variant="outline"
-            className="border-white/30 text-white bg-red-700 hover:bg-red-600 w-[40%] h-[48px]"
-            onClick={handleClearActive}
-          >
-            Quitar Usuario
-          </Button> */}
-        </div>
+        </motion.div>
       )}
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-primary mb-2">
-          Queremos que nos cuentes si has tenido una experiencia con Dios esta
-          noche.
+
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.15, duration: 0.5 }}
+        className="mb-10 text-center"
+      >
+        <span className="mb-4 inline-block rounded-full border border-terceary/15 bg-terceary/[0.05] px-4 py-1.5 text-[10px] font-montserratBold uppercase tracking-[0.4em] text-terceary/80">
+          Tu experiencia importa
+        </span>
+        <h2 className="mx-auto mt-4 max-w-2xl font-bebasNeue text-3xl leading-tight tracking-wide text-primary sm:text-4xl">
+          Queremos que nos cuentes si has tenido una experiencia con Dios esta noche
         </h2>
-        <p className="text-gray-700 text-lg font-bold my-8">
-          Selecciona una opción para continuar
+        <p className="mt-4 text-xs font-montserratBold uppercase tracking-[0.2em] text-primary/35">
+          Selecciona una opción
         </p>
+      </motion.div>
+
+      {/* Cards */}
+      <div className="grid gap-5 md:grid-cols-3">
+        {OPCIONES.map((op, i) => {
+          const Icon = op.icon;
+          return (
+            <motion.div
+              key={op.key}
+              custom={i}
+              initial="hidden"
+              animate="visible"
+              variants={cardVariant}
+              whileHover={{ y: -4 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Card
+                className="group h-full cursor-pointer overflow-hidden rounded-2xl border border-primary/[0.06] bg-white transition-all duration-300 hover:border-terceary/20 hover:shadow-[0_20px_50px_rgba(0,22,42,0.1)]"
+                onClick={() => onSelectView(op.key)}
+              >
+                <CardContent className="flex h-full flex-col p-7 text-center">
+                  <div className={`mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${op.gradient} shadow-lg ring-4 ${op.ring} transition-transform duration-300 group-hover:scale-105`}>
+                    <Icon className="h-7 w-7 text-white" />
+                  </div>
+                  <h3 className="mb-3 font-bebasNeue text-2xl tracking-wide text-primary">
+                    {op.title}
+                  </h3>
+                  <p className="mb-6 flex-1 text-sm leading-6 text-primary/45">
+                    {op.desc}
+                  </p>
+                  <Button className="group/btn w-full rounded-xl bg-gradient-to-r from-primary to-celestial py-4 text-xs font-montserratBold uppercase tracking-[0.1em] text-white shadow-[0_6px_20px_rgba(0,22,42,0.15)] transition-all duration-300 hover:brightness-110">
+                    {op.cta}
+                    <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
+          );
+        })}
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8">
-        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          <Card
-            className="bg-white border-white/20 shadow-2xl cursor-pointer h-full"
-            onClick={() => onSelectView('testimonio')}
-          >
-            <CardContent className="p-8 text-center h-full flex flex-col justify-center">
-              <div className="bg-gradient-to-br from-red-500 to-red-800 p-4 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center ring-1 ring-white/20 shadow-lg">
-                <Heart className="w-10 h-10 text-white " />
-              </div>
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                Fui lleno con el Espíritu Santo
-              </h2>
-              <h3 className="text-lg font-bold italic text-gray-700">
-                ¡Queremos celebrar contigo lo que Dios está haciendo!
-              </h3>
-              <p className="text-secondary text-base mb-6 text-justify">
-                Nos alegra saber que el Señor sigue bautizando con su Espíritu y
-                obrando de manera poderosa. Este es el comienzo de un hermoso
-                camino, y estamos aquí para acompañarte.
-              </p>
-              <Button className="bg-gradient-to-r from-primary to-secondary hover:from-primary/50 hover:to-secondary/50 text-white font-bold text-base py-6">
-                Recibi el Espíritu Santo
-              </Button>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          <Card
-            className="bg-white border-white/20 shadow-2xl cursor-pointer h-full"
-            onClick={() => onSelectView('acompanamiento')}
-          >
-            <CardContent className="p-8 text-center h-full flex flex-col justify-center">
-              <div className="bg-gradient-to-br from-slate-600 to-slate-800 p-4 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center ring-1 ring-white/20 shadow-lg">
-                <Users className="w-10 h-10 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                Deseo acompañamiento
-              </h3>
-              <p className="text-secondary text-base mb-2 text-justify">
-                Solicita acompañamiento espiritual, oración o consejería
-                pastoral
-              </p>
-              <span className="italic font-bold text-xs text-gray-500 text-center mb-6 bg-gray-100 p-2 rounded-md">
-                “Y considerémonos unos a otros para estimularnos al amor y a las
-                buenas obras; no dejando de congregarnos, como algunos tienen
-                por costumbre, sino exhortándonos; y tanto más, cuanto veis que
-                aquel día se acerca.” Heb 10:24-25
-              </span>
-              <Button className="bg-gradient-to-r from-primary to-secondary hover:from-primary/50 hover:to-secondary/50 text-white font-bold text-base py-6">
-                Solicita acompañamiento
-              </Button>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Nuevo: opción para compartir testimonio en texto */}
-        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          <Card
-            className="bg-white border-white/20 shadow-2xl cursor-pointer h-full"
-            onClick={() => onSelectView('testimonioTexto')}
-          >
-            <CardContent className="p-8 text-center h-full flex flex-col justify-center">
-              <div className="bg-gradient-to-br from-emerald-500 to-emerald-800 p-4 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center ring-1 ring-white/20 shadow-lg">
-                <MessageSquare className="w-10 h-10 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                Compartenos tu Testimonio
-              </h3>
-              <p className="text-secondary text-base mb-6 text-justify">
-                Cuéntanos brevemente un testimonio o experiencia vivida durante
-                esta noche de <strong>FERVOR</strong>.
-              </p>
-              <Button className="bg-gradient-to-r from-primary to-secondary hover:from-primary/50 hover:to-secondary/50 text-white font-bold text-base py-6">
-                Compartenos tu Testimonio
-              </Button>
-            </CardContent>
-          </Card>
-        </motion.div>
-      </div>
-
-      {/* Sección para registrar a otra persona */}
-      <div className="mt-10 text-center">
+      {/* Re-register */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.7, duration: 0.5 }}
+        className="mt-10 text-center"
+      >
         {!confirmReRegister ? (
           <>
-            <p className="text-gray-600 italic font-bold mb-4">
+            <p className="mb-3 text-sm text-primary/40">
               ¿Deseas registrar a otra persona desde este dispositivo?
             </p>
-            <Button
-              className="bg-terceary text-gray-700 hover:bg-terceary/80 text-base font-bold py-6"
+            <button
               onClick={() => setConfirmReRegister(true)}
+              className="text-sm font-montserratBold text-terceary/70 underline underline-offset-4 transition-colors hover:text-terceary"
             >
               Registrar a otra persona
-            </Button>
+            </button>
           </>
         ) : (
-          <div className="max-w-xl mx-auto bg-white/10 border border-white/20 rounded-lg p-6">
-            <p className="text-secondary mb-4">
-              Podrás registrar a otra persona sin borrar a las ya guardadas en
-              este dispositivo. ¿Deseas continuar?
+          <div className="mx-auto max-w-md rounded-2xl border border-primary/[0.06] bg-white p-6 shadow-[0_10px_30px_rgba(0,22,42,0.06)]">
+            <p className="mb-5 text-sm text-primary/50">
+              Podrás registrar a otra persona sin borrar a las ya guardadas en este dispositivo.
             </p>
-            <div className="flex gap-4 justify-center">
+            <div className="flex gap-3 justify-center">
               <Button
-                className="bg-gradient-to-r from-terceary/80 to-terceary/50 hover:from-terceary/50 hover:to-terceary/80 text-gray-700 font-bold"
+                className="rounded-xl bg-gradient-to-r from-primary to-celestial px-6 py-3 text-xs font-montserratBold uppercase tracking-[0.1em] text-white transition-all hover:brightness-110"
                 onClick={handleReRegister}
               >
-                Sí, registrar de nuevo
+                Sí, continuar
               </Button>
               <Button
                 variant="outline"
-                className="border-white/30 text-white bg-secondary hover:bg-white/10"
+                className="rounded-xl border-primary/15 px-6 py-3 text-xs font-montserratBold uppercase tracking-[0.1em] text-primary/50 hover:bg-primary/[0.03]"
                 onClick={() => setConfirmReRegister(false)}
               >
-                Volver
+                Cancelar
               </Button>
             </div>
           </div>
         )}
-      </div>
+      </motion.div>
     </motion.div>
   );
 };

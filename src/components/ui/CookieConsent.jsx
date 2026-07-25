@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { getCurrentYear } from '@/lib/utils';
 
 /**
  * CookieConsent modal
@@ -35,19 +36,26 @@ export default function CookieConsent() {
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/60" onClick={accept} />
-      <div className="relative w-full max-w-lg bg-white/90 backdrop-blur-lg rounded-xl border border-white/30 shadow-2xl overflow-hidden">
-        <div className="px-6 py-5">
-          <h3 className="text-3xl font-bold text-primary mb-4 text-center font-bebasNeue">
-            Bienvenido a Fervor 2025
+      <div className="absolute inset-0 bg-primary/80 backdrop-blur-sm" onClick={accept} />
+      <div className="relative w-full max-w-lg overflow-hidden rounded-3xl border border-terceary/20 bg-white shadow-[0_30px_90px_rgba(0,22,42,0.4)]">
+        <div className="bg-gradient-to-br from-primary to-celestial px-6 py-6 text-center">
+          <img
+            src="/logo-fervor-2026.png"
+            alt="Fervor 2026"
+            className="mx-auto mb-4 w-52 mix-blend-screen brightness-150"
+          />
+          <h3 className="font-bebasNeue text-3xl tracking-wide text-white">
+            Bienvenido a Fervor {getCurrentYear()}
           </h3>
-          <p className="text-secondary text-base leading-relaxed mb-4">
+        </div>
+        <div className="px-6 py-6">
+          <p className="mb-4 text-base leading-relaxed text-primary/75">
             Dios te bendiga, Usamos cookies para mejorar tu experiencia y
             almacenamos de forma segura la información que registras con fines
             de organización del evento. Al continuar, aceptas nuestra política
             de tratamiento de datos y uso de cookies.
           </p>
-          <ul className="list-disc pl-5 text-secondary/80 text-sm space-y-1 mb-5">
+          <ul className="mb-6 list-disc space-y-1 pl-5 text-sm text-primary/60">
             <li>No compartimos tu información con terceros no autorizados.</li>
             <li>
               Puedes solicitar la eliminación de tus datos en cualquier momento.
@@ -56,7 +64,7 @@ export default function CookieConsent() {
           <div className="flex items-center justify-center">
             <button
               onClick={accept}
-              className="inline-flex items-center justify-center rounded-md px-5 py-2.5 bg-gradient-to-r from-primary to-secondary text-white font-bold shadow hover:from-primary/80 hover:to-secondary/80 transition-colors"
+              className="inline-flex min-h-12 items-center justify-center rounded-full bg-gradient-to-r from-primary to-celestial px-7 py-2.5 font-bold text-white shadow-lg transition-transform hover:scale-[1.03]"
             >
               Aceptar
             </button>

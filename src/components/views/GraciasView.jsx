@@ -2,72 +2,93 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent } from '@/components/ui/Card';
-import { Instagram, CheckCircle } from 'lucide-react';
+import { Instagram, CheckCircle, ArrowRight } from 'lucide-react';
 
 const GraciasView = ({ onContinue }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className="max-w-2xl mx-auto text-center"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      className="mx-auto max-w-2xl text-center"
     >
-      <Card className="bg-white/10 bg-white backdrop-blur-lg border-white/20 shadow-2xl">
-        <CardContent className="p-12">
+      <Card className="overflow-hidden rounded-2xl border border-primary/[0.06] bg-white shadow-[0_20px_60px_rgba(0,22,42,0.08)]">
+        <CardContent className="p-8 sm:p-12">
+          {/* Icon */}
           <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: 'spring' }}
-            className="mb-6"
+            initial={{ scale: 0, rotate: -20 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ delay: 0.2, duration: 0.5, type: 'spring', stiffness: 200 }}
+            className="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-celestial shadow-[0_12px_30px_rgba(0,22,42,0.2)]"
           >
-            <CheckCircle className="w-20 h-20 text-primary mx-auto" />
+            <CheckCircle className="h-10 w-10 text-terceary" />
           </motion.div>
-          <h2 className="text-3xl font-bold text-terceary mb-4">
-            ¡Gracias por registrar tu asistencia! 🎉🙏🏻
-          </h2>
-          <p className="text-base text-primary font-medium mb-4">
-            Tu registro ha sido confirmado. ¡Esperamos que durante este evento
-            Dios transforme tu vida!
-          </p>
 
-          <div className="text-gray-700 mb-4">
-            <p>Síguenos en nuestras redes sociales</p>
-            <div className="flex justify-center items-center gap-6 my-4">
+          {/* Title */}
+          <motion.h2
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35, duration: 0.5 }}
+            className="mb-3 font-bebasNeue text-3xl tracking-wide text-primary sm:text-4xl"
+          >
+            ¡Registro confirmado!
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.45, duration: 0.5 }}
+            className="mb-8 text-sm leading-6 text-primary/50"
+          >
+            Tu asistencia ha sido registrada. Esperamos que durante este evento Dios transforme tu vida.
+          </motion.p>
+
+          {/* Social */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.55, duration: 0.5 }}
+            className="mb-8 rounded-xl border border-primary/[0.06] bg-primary/[0.02] p-5"
+          >
+            <p className="mb-4 text-[10px] font-montserratBold uppercase tracking-[0.3em] text-primary/40">
+              Síguenos en redes
+            </p>
+            <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-6">
               <a
                 href="https://www.instagram.com/fervor.oficial?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center font-bold justify-center my-4 text-primary"
+                className="flex items-center gap-2 text-sm font-montserratMedium text-primary/60 transition-colors hover:text-terceary"
               >
-                <Instagram />
+                <Instagram className="h-4 w-4" />
                 @fervor.oficial
               </a>
               <a
                 href="https://www.instagram.com/conquistadores9?igsh=MXB2bjJ5ZW1nMXlhaw=="
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center font-bold justify-center text-primary"
+                className="flex items-center gap-2 text-sm font-montserratMedium text-primary/60 transition-colors hover:text-terceary"
               >
-                <Instagram />
+                <Instagram className="h-4 w-4" />
                 @conquistadores9
               </a>
             </div>
-          </div>
-          {/* <div className="bg-white/20 rounded-lg p-6 mb-8">
-            <div className="flex items-center justify-center gap-2 text-secondary mb-2">
-              <Clock className="w-5 h-5" />
-              <span className="font-semibold">Información del Evento</span>
-            </div>
-            <p className="text-secondary">
-              Mantente atento a tu teléfono y email para más detalles sobre el
-              evento
-            </p>
-          </div> */}
-          <Button
-            onClick={onContinue}
-            className="bg-gradient-to-r from-primary to-secondary hover:from-primary/50 hover:to-secondary/50 text-white font-bold py-3 px-8 text-lg"
+          </motion.div>
+
+          {/* CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.65, duration: 0.5 }}
           >
-            Continuar
-          </Button>
+            <Button
+              onClick={onContinue}
+              className="group rounded-xl bg-gradient-to-r from-primary to-celestial px-10 py-5 text-sm font-montserratBold uppercase tracking-[0.12em] text-white shadow-[0_10px_30px_rgba(0,22,42,0.2)] transition-all duration-300 hover:shadow-[0_15px_40px_rgba(0,22,42,0.3)] hover:brightness-110"
+            >
+              Continuar
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </Button>
+          </motion.div>
         </CardContent>
       </Card>
     </motion.div>
