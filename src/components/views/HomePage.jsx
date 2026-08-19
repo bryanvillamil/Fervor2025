@@ -261,7 +261,7 @@ const HomePage = () => {
         <div className="relative z-10 mx-auto h-[72svh] min-h-[440px] max-h-[680px] w-full sm:aspect-[16/9] sm:h-auto sm:min-h-0 sm:max-h-none min-[1800px]:w-[min(100vw,177.777svh)]">
           {/* Layer 1: Background flyer */}
           <img
-            src="/fervor-bg.png"
+            src="/fervor-bg.jpeg"
             alt=""
             aria-hidden="true"
             width="1920"
@@ -298,11 +298,11 @@ const HomePage = () => {
             className="absolute inset-0 flex items-center justify-center"
           >
             <img
-              src="/fervor-text-hero.png"
+              src="/fervor-text-hero-2.png"
               alt="Fervor 2026 — Identidad Celestial"
-              width="888"
-              height="281"
-              className="h-auto w-[90%] max-w-none -translate-y-[38%] object-contain sm:w-[64%] sm:-translate-y-[16%] lg:w-[62%]"
+              width="991"
+              height="341"
+              className="h-auto w-[90%] max-w-none -translate-y-[38%] object-contain sm:w-[64%] sm:-translate-y-[16%] lg:-translate-y-[10%] lg:w-[62%]"
             />
           </motion.div>
         </div>
