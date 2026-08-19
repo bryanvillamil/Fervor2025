@@ -22,13 +22,19 @@ import {
   useSpring,
 } from 'framer-motion';
 import {
+  ArrowDown,
   ArrowRight,
   MapPin,
   Clock3,
   CalendarDays,
   Instagram,
   Heart,
+  Ticket,
 } from 'lucide-react';
+import NightSky from '../ui/NightSky';
+
+/* Stable reference — a new array each render would restart the starfield. */
+const COMET_INTERVAL = [7, 16];
 
 const PREACHERS = [
   { name: 'Jhon Fabio García', role: 'Secretario de la IPUC', title: 'Pastor' },
@@ -62,30 +68,6 @@ const LightRays = () => (
           background: `linear-gradient(180deg, transparent 0%, rgba(5,219,242,${ray.opacity}) 30%, rgba(5,219,242,${ray.opacity * 0.6}) 60%, transparent 100%)`,
           animationDelay: ray.delay,
           animationDuration: ray.dur,
-        }}
-      />
-    ))}
-  </div>
-);
-
-/* ─── Floating particles ─── */
-const Particles = () => (
-  <div
-    className="pointer-events-none absolute inset-0 overflow-hidden"
-    aria-hidden="true"
-  >
-    {Array.from({ length: 20 }, (_, i) => (
-      <div
-        key={i}
-        className="particle absolute rounded-full bg-terceary"
-        style={{
-          width: `${Math.random() * 3 + 1}px`,
-          height: `${Math.random() * 3 + 1}px`,
-          left: `${Math.random() * 100}%`,
-          top: `${Math.random() * 100}%`,
-          opacity: Math.random() * 0.5 + 0.1,
-          animationDelay: `${Math.random() * 8}s`,
-          animationDuration: `${Math.random() * 6 + 6}s`,
         }}
       />
     ))}
@@ -218,62 +200,6 @@ const SpeakersSection = ({ preachers, reduceMotion }) => {
         </motion.div>
 
         {/* Preacher cards */}
-        <div className="space-y-4">
-          {preachers.map((preacher, i) => (
-            <motion.div
-              key={preacher.name}
-              initial={
-                reduceMotion
-                  ? false
-                  : {
-                      opacity: 0,
-                      x: i % 2 === 0 ? -60 : 60,
-                      filter: 'blur(4px)',
-                    }
-              }
-              whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{
-                delay: i * 0.1,
-                duration: 0.8,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              whileHover={reduceMotion ? undefined : { scale: 1.015, x: 8 }}
-              className="group relative grid grid-cols-[3rem_1fr] items-center gap-5 rounded-2xl border border-white/[0.06] bg-white/[0.02] px-6 py-5 backdrop-blur-sm transition-colors duration-500 hover:border-terceary/20 hover:bg-white/[0.05] sm:grid-cols-[4rem_1fr_auto] sm:px-8 sm:py-6"
-            >
-              {/* Hover glow */}
-              <div
-                className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                style={{
-                  background:
-                    'radial-gradient(600px circle at 50% 50%, rgba(5,219,242,0.06), transparent 40%)',
-                }}
-              />
-
-              {/* Number */}
-              <div className="relative flex h-12 w-12 items-center justify-center rounded-xl border border-terceary/10 bg-terceary/[0.06] transition-all duration-500 group-hover:border-terceary/30 group-hover:bg-terceary/[0.12]">
-                <span className="font-bebasNeue text-xl text-terceary/60 transition-colors duration-500 group-hover:text-terceary sm:text-2xl">
-                  0{i + 1}
-                </span>
-              </div>
-
-              {/* Info */}
-              <div className="relative min-w-0">
-                <p className="mb-1 text-[10px] font-montserratBold uppercase tracking-[0.25em] text-peach/60 transition-colors duration-500 group-hover:text-peach">
-                  {preacher.title}
-                </p>
-                <h3 className="truncate font-bebasNeue text-xl tracking-wide text-white/90 transition-colors duration-500 group-hover:text-white sm:text-3xl md:text-4xl">
-                  {preacher.name}
-                </h3>
-              </div>
-
-              {/* Role */}
-              <p className="relative col-start-2 text-[11px] font-montserratMedium uppercase tracking-[0.15em] text-white/30 transition-colors duration-500 group-hover:text-white/55 sm:col-start-auto sm:text-xs">
-                {preacher.role}
-              </p>
-            </motion.div>
-          ))}
-        </div>
       </div>
     </section>
   );
@@ -282,13 +208,7 @@ const SpeakersSection = ({ preachers, reduceMotion }) => {
 const HomePage = () => {
   const reduceMotion = useReducedMotion();
   const heroRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ['start start', 'end start'],
-  });
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const heroScale = useTransform(scrollYProgress, [0, 0.8], [1, 1.1]);
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 150]);
+  const [hoveringCta, setHoveringCta] = useState(false);
 
   const initial = reduceMotion ? false : 'hidden';
   const reveal = {
@@ -321,11 +241,24 @@ const HomePage = () => {
       {/* ═══════ HERO — LAYERED FLYER ═══════ */}
       <section
         ref={heroRef}
-        className="relative isolate w-full overflow-hidden bg-white"
+        className="relative isolate w-full overflow-hidden bg-white min-[1800px]:bg-primary"
         aria-label="Fervor 2026 — información principal"
       >
-        {/* Flyer container — 90% width centered, natural aspect ratio */}
-        <div className="relative mx-auto w-[100%]">
+        {/* Large-screen letterbox — the same night sky as the verse section, so
+            the two read as one continuous sky. Hidden below 1800px. */}
+        <div
+          className="large-hero-atmosphere pointer-events-none absolute inset-0 overflow-hidden bg-primary"
+          aria-hidden="true"
+        >
+          <NightSky
+            density={1.15}
+            cometInterval={COMET_INTERVAL}
+            className="absolute inset-0 h-full w-full"
+          />
+        </div>
+
+        {/* Flyer container — full composition on desktop, focused crop on mobile */}
+        <div className="relative z-10 mx-auto h-[72svh] min-h-[440px] max-h-[680px] w-full sm:aspect-[16/9] sm:h-auto sm:min-h-0 sm:max-h-none min-[1800px]:w-[min(100vw,177.777svh)]">
           {/* Layer 1: Background flyer */}
           <img
             src="/fervor-bg.png"
@@ -334,7 +267,7 @@ const HomePage = () => {
             width="1920"
             height="1080"
             fetchPriority="high"
-            className="block h-auto w-full"
+            className="large-hero-flyer-image absolute inset-0 h-full w-full object-cover object-center sm:object-contain"
           />
 
           {/* Layer 2: People + logo — smooth cinematic entrance */}
@@ -362,48 +295,113 @@ const HomePage = () => {
               opacity: { delay: 0.25, duration: 1.1 },
               filter: { delay: 0.45, duration: 1.2 },
             }}
-            className="absolute inset-0"
+            className="absolute inset-0 flex items-center justify-center"
           >
             <img
-              src="/fervor-people.png"
-              alt="Fervor 2026, Identidad Celestial. Predicadores: Jhon Fabio García, David Alomia, Jader Moreno, Jorge Yepes, Carlos Carvajal."
-              width="1920"
-              height="1080"
-              className="h-full w-full object-fill"
+              src="/fervor-text-hero.png"
+              alt="Fervor 2026 — Identidad Celestial"
+              width="888"
+              height="281"
+              className="h-auto w-[90%] max-w-none -translate-y-[38%] object-contain sm:w-[64%] sm:-translate-y-[16%] lg:w-[62%]"
             />
           </motion.div>
+        </div>
 
-          {/* Layer 3: Predicadores invitados — left side */}
-          <motion.div
-            initial={
-              reduceMotion
-                ? false
-                : {
-                    opacity: 0,
-                    x: -60,
-                    filter: 'blur(6px)',
-                  }
-            }
-            animate={{
-              opacity: 1,
-              x: 0,
-              filter: 'blur(0px)',
-            }}
-            transition={{
-              delay: 1.2,
-              duration: 1.3,
-              ease: [0.22, 1, 0.36, 1],
-              opacity: { delay: 1.0, duration: 0.9 },
-              filter: { delay: 1.3, duration: 1.0 },
-            }}
-            className="absolute bottom-[30%] left-[2%] w-[20%] sm:bottom-[34%] sm:left-[5%] sm:w-[16%] md:w-[13%]"
+        {/* Top-center CTA — between the flyer heading and main wordmark */}
+        <div className="absolute left-1/2 top-[14%] z-20 -translate-x-1/2 sm:top-[17%]">
+          <div className="relative inline-flex">
+            <motion.a
+              href="https://ticket.movendi.app/fervor-2026"
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: 1.35,
+                duration: 0.65,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              onHoverStart={() => setHoveringCta(true)}
+              onHoverEnd={() => setHoveringCta(false)}
+              onFocus={() => setHoveringCta(true)}
+              onBlur={() => setHoveringCta(false)}
+              whileHover={
+                reduceMotion
+                  ? undefined
+                  : {
+                      scale: 1.035,
+                      y: -3,
+                      transition: {
+                        type: 'spring',
+                        stiffness: 420,
+                        damping: 26,
+                      },
+                    }
+              }
+              whileTap={
+                reduceMotion
+                  ? undefined
+                  : {
+                      scale: 0.98,
+                      y: -1,
+                      transition: { duration: 0.12, ease: 'easeOut' },
+                    }
+              }
+              className="group relative inline-flex min-h-14 max-w-[calc(100vw-2rem)] items-center justify-center gap-3 whitespace-nowrap rounded-full bg-primary px-7 font-montserratBold text-sm uppercase tracking-[0.12em] text-white shadow-[0_20px_45px_-14px_rgba(0,22,42,0.75),0_6px_14px_-6px_rgba(0,22,42,0.45)] transition-shadow duration-300 hover:shadow-[0_30px_64px_-14px_rgba(0,22,42,0.85),0_10px_22px_-6px_rgba(0,22,42,0.5),0_0_28px_-6px_rgba(5,219,242,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-white sm:min-h-16 sm:gap-3.5 sm:px-10 sm:text-base sm:tracking-[0.14em]"
+            >
+              {/* Rim light — a single spark tracing the edge. The one loop.
+                  On hover it speeds up: the button charges rather than blinks. */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute -inset-px overflow-hidden rounded-full"
+              >
+                <motion.span
+                  animate={reduceMotion ? undefined : { rotate: 360 }}
+                  transition={{
+                    duration: hoveringCta ? 1.6 : 5,
+                    repeat: Infinity,
+                    ease: 'linear',
+                  }}
+                  className="absolute left-1/2 top-1/2 h-[260%] w-[130%] -translate-x-1/2 -translate-y-1/2 bg-[conic-gradient(from_0deg,transparent_0deg,transparent_260deg,rgba(5,219,242,0.55)_320deg,#7FF0FF_352deg,#FFFFFF_358deg,transparent_360deg)] transition-opacity duration-300 group-hover:opacity-100"
+                />
+              </span>
+
+              {/* Face — sits on top of the rim so only a hairline of it shows */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 overflow-hidden rounded-full bg-[linear-gradient(165deg,#0B3A5C_0%,#03203A_45%,#00162A_100%)] shadow-[inset_0_1px_0_rgba(255,255,255,0.22),inset_0_-8px_18px_-10px_rgba(5,219,242,0.45)] transition-shadow duration-300 group-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.35),inset_0_-14px_26px_-10px_rgba(5,219,242,0.75)]"
+              >
+                <span className="cta-sweep absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-white/70 to-transparent" />
+              </span>
+
+              <Ticket className="relative z-10 h-5 w-5 text-terceary transition-[transform,color] duration-300 group-hover:-rotate-12 group-hover:scale-110 group-hover:text-white sm:h-6 sm:w-6" />
+              <span className="relative z-10">Comprar entrada</span>
+            </motion.a>
+          </div>
+        </div>
+
+        {/* Independent bottom scroll cue */}
+        <div className="absolute bottom-10 md:bottom-16 left-1/2 z-20 -translate-x-1/2">
+          <motion.a
+            href="#descubre"
+            aria-label="Descubrir más sobre Fervor"
+            initial={reduceMotion ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.8, duration: 0.8 }}
+            className="flex items-center gap-1.5 text-[9px] font-montserratBold uppercase tracking-[0.22em] text-primary/65"
           >
-            <img
-              src="/fervor-predicadores.png"
-              alt="Predicadores invitados: John Fabio García, David Alomia, Jader Moreno, Jorge Yepes, Carlos Carvajal"
-              className="h-auto w-full drop-shadow-[0_4px_20px_rgba(0,0,0,0.15)]"
-            />
-          </motion.div>
+            Descubre
+            <motion.span
+              animate={reduceMotion ? undefined : { y: [0, 3, 0] }}
+              transition={{
+                duration: 1.8,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            >
+              <ArrowDown className="h-3 w-3" />
+            </motion.span>
+          </motion.a>
         </div>
 
         {/* White gradient vignette — seamless fade on all sides */}
@@ -440,38 +438,30 @@ const HomePage = () => {
             }}
           />
         </div> */}
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.8, duration: 0.8 }}
-          className="absolute bottom-4 left-1/2 z-20 -translate-x-1/2 md:bottom-6"
-        >
-          <motion.div
-            animate={reduceMotion ? undefined : { y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            className="hidden md:flex h-10 w-6 items-start justify-center rounded-full border border-white/30 backdrop-blur-sm"
-          >
-            <motion.div
-              animate={
-                reduceMotion
-                  ? undefined
-                  : { y: [2, 14, 2], opacity: [0.6, 1, 0.6] }
-              }
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-              className="mt-2 h-2 w-1 rounded-full bg-white"
-            />
-          </motion.div>
-        </motion.div>
       </section>
 
       {/* ═══════ VERSE / IDENTITY ═══════ */}
-      <section className="relative overflow-hidden px-5 py-20 sm:px-8 md:py-28">
+      <section
+        id="descubre"
+        className="relative overflow-hidden px-5 py-20 sm:px-8 md:py-28"
+      >
         {/* Ambient glow */}
         <div className="absolute inset-0 bg-primary" aria-hidden="true" />
         <div
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_50%,rgba(5,219,242,0.05),transparent)]"
+          aria-hidden="true"
+        />
+
+        {/* Night sky — the verse is about heaven, so put the reader under it */}
+        <NightSky
+          density={1.15}
+          cometInterval={COMET_INTERVAL}
+          className="pointer-events-none absolute inset-0 h-full w-full"
+        />
+
+        {/* Keeps the verse readable against the starfield */}
+        <div
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_58%_44%_at_50%_50%,rgba(0,22,42,0.8),transparent_78%)]"
           aria-hidden="true"
         />
 
@@ -594,7 +584,7 @@ const HomePage = () => {
                 7 y 8 de diciembre
               </h3>
               <p className="mt-2 text-sm text-white/40">
-                Dos noches · una misma presencia
+                1 Noche de Adoración y Exaltación
               </p>
             </motion.div>
 
@@ -638,7 +628,7 @@ const HomePage = () => {
                 <Heart className="h-6 w-6" />
               </div>
               <p className="mb-2 text-[10px] font-montserratBold uppercase tracking-[0.35em] text-peach/60">
-                Donación
+                Inversión
               </p>
               <h3 className="font-bebasNeue text-4xl tracking-wide text-white sm:text-5xl">
                 $48.000
@@ -692,6 +682,51 @@ const HomePage = () => {
             </a>
           </motion.div>
         </div>
+      </section>
+
+      {/* ═══════ TICKETS CTA ═══════ */}
+      <section className="relative overflow-hidden border-y border-terceary/15 bg-celestial px-5 py-10 sm:px-8 md:py-12">
+        <div
+          className="pointer-events-none absolute -right-20 top-1/2 h-56 w-56 -translate-y-1/2 rounded-full bg-terceary/15 blur-[90px]"
+          aria-hidden="true"
+        />
+        <motion.div
+          initial={initial}
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.35 }}
+          variants={reveal}
+          className="relative mx-auto flex max-w-6xl flex-col gap-7 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div className="flex items-start gap-5 sm:items-center">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-terceary/20 bg-terceary/10 text-terceary">
+              <Ticket className="h-6 w-6" />
+            </div>
+            <div>
+              <p className="mb-1 text-[10px] font-montserratBold uppercase tracking-[0.35em] text-terceary/70">
+                Asegura tu entrada
+              </p>
+              <h2 className="font-bebasNeue text-3xl tracking-wide text-white sm:text-4xl">
+                Preventa $45.000
+              </h2>
+              <p className="mt-1 text-sm text-white/50">
+                General{' '}
+                <span className="text-terceary line-through">$48.000</span>
+              </p>
+            </div>
+          </div>
+
+          <motion.a
+            href="https://ticket.movendi.app/fervor-2026"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={reduceMotion ? undefined : { scale: 1.03 }}
+            whileTap={reduceMotion ? undefined : { scale: 0.98 }}
+            className="group inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-full bg-peach px-7 text-sm font-montserratBold uppercase tracking-[0.14em] text-primary shadow-[0_14px_35px_rgba(0,22,42,0.28)] transition-colors hover:bg-white"
+          >
+            Comprar boletas
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </motion.a>
+        </motion.div>
       </section>
 
       {/* ═══════ PATROCINADORES ═══════ */}

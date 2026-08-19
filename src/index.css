@@ -223,6 +223,92 @@ select:focus {
   will-change: transform, opacity;
 }
 
+/* Hero atmosphere is intentionally isolated to large external displays. */
+.large-hero-atmosphere {
+  display: none;
+}
+
+/* Hero CTA — light sweeping across the face when the pointer lands on it. */
+@keyframes cta-sweep {
+  from {
+    opacity: 0;
+    transform: translateX(-140%) skewX(-18deg);
+  }
+  35% {
+    opacity: 0.6;
+  }
+  to {
+    opacity: 0;
+    transform: translateX(240%) skewX(-18deg);
+  }
+}
+
+.cta-sweep {
+  opacity: 0;
+  transform: translateX(-140%) skewX(-18deg);
+}
+
+.group:hover .cta-sweep,
+.group:focus-visible .cta-sweep {
+  animation: cta-sweep 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .group:hover .cta-sweep,
+  .group:focus-visible .cta-sweep {
+    animation: none;
+  }
+}
+
+@media (min-width: 1800px) {
+  .large-hero-atmosphere {
+    display: block;
+  }
+
+  .large-hero-flyer-image {
+    -webkit-mask-image:
+      linear-gradient(
+        to right,
+        transparent 0%,
+        rgb(0 0 0 / 35%) 4%,
+        black 14%,
+        black 86%,
+        rgb(0 0 0 / 35%) 96%,
+        transparent 100%
+      ),
+      linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgb(0 0 0 / 70%) 3%,
+        black 7%,
+        black 93%,
+        rgb(0 0 0 / 70%) 97%,
+        transparent 100%
+      );
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(
+        to right,
+        transparent 0%,
+        rgb(0 0 0 / 35%) 4%,
+        black 14%,
+        black 86%,
+        rgb(0 0 0 / 35%) 96%,
+        transparent 100%
+      ),
+      linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgb(0 0 0 / 70%) 3%,
+        black 7%,
+        black 93%,
+        rgb(0 0 0 / 70%) 97%,
+        transparent 100%
+      );
+    mask-composite: intersect;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
